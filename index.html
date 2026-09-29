@@ -59,6 +59,15 @@ body[data-theme="dark"]{--key-bg:#374151;--key-shadow:#111827;--key-tested-bg:#0
 .kb-history{font-family:monospace;font-size:.9em;margin-top:10px;min-height:1.4em;word-break:break-all}
 .kb-note{margin-top:20px;padding:15px;border-radius:8px;background-color:var(--bg-color);border:1px dashed var(--border-color);font-size:.88em;line-height:1.6}
 .kb-note ul{margin:6px 0 0;padding-left:20px}
+.practice-header{flex-wrap:wrap;gap:12px 20px}
+/* 언어·반복·블라인드·키보드 보기는 처음부터 둘째 줄에 (타수가 커질 때 줄이 바뀌며 흔들리지 않도록) */
+.practice-header .toggles-group{flex-basis:100%;justify-content:flex-start}
+.minimal-stats span{white-space:nowrap}
+.toggles-group label{white-space:nowrap}
+/* 연습 화면의 키보드 보기: 화면 아래에 붙어 있음 */
+.practice-kb{position:sticky;bottom:0;z-index:5;margin-top:20px;padding:10px 0 12px;background-color:var(--bg-color);border-top:1px solid var(--border-color)}
+.keyboard.mini{min-width:0;max-width:760px;margin:0 auto;aspect-ratio:15/5}
+.keyboard.mini .key>span{font-size:1.7cqw}
 .ms-top{margin-top:40px;padding-top:30px;border-top:1px solid var(--border-color)}
 .ms-area{display:flex;gap:30px;align-items:center;padding:25px;border:2px dashed var(--border-color);border-radius:12px;background-color:var(--bg-color);user-select:none;-webkit-user-select:none;cursor:crosshair;flex-wrap:wrap}
 .ms-svg{width:150px;flex-shrink:0;margin:0 auto}
@@ -139,6 +148,7 @@ body[data-theme="dark"]{--key-bg:#374151;--key-shadow:#111827;--key-tested-bg:#0
         </div>
         <label style="cursor:pointer;display:flex;align-items:center;gap:5px;color:var(--primary-color);font-weight:700"><input type="checkbox" id="repeat-toggle"> 🔁 반복</label>
         <label style="cursor:pointer;display:flex;align-items:center;gap:5px"><input type="checkbox" id="blind-toggle"> 🙈 블라인드</label>
+        <label style="cursor:pointer;display:flex;align-items:center;gap:5px"><input type="checkbox" id="kbview-toggle"> ⌨️ 키보드 보기</label>
       </div>
     </div>
     <div class="typing-container" id="typing-container">
@@ -152,6 +162,7 @@ body[data-theme="dark"]{--key-bg:#374151;--key-shadow:#111827;--key-tested-bg:#0
       <button id="btn-prev-verse" class="nav-btn">← 이전 구절</button>
       <button id="btn-next-verse" class="nav-btn">다음 구절 →</button>
     </div>
+    <div class="practice-kb" id="practice-kb" style="display:none"><div class="keyboard mini" id="practice-keyboard"></div></div>
   </section>
 
   <section id="section-results" style="display:none">
@@ -248,6 +259,7 @@ body[data-theme="dark"]{--key-bg:#374151;--key-shadow:#111827;--key-tested-bg:#0
       <li><strong>실시간 타수/정확도:</strong> 한국어 타수(CPM) 기준으로 정밀하게 측정되며, 문장을 끝까지 치면 내 기록이 고정되어 확인할 수 있습니다.</li>
       <li><strong>🔁 반복 기능:</strong> 잘 안 외워지는 구절은 '반복' 스위치를 켜두세요! 완벽히 내 것이 될 때까지 같은 구절만 계속 연습할 수 있습니다.</li>
       <li><strong>🙈 블라인드 모드:</strong> 원본 말씀을 가리고 내 기억력만으로 타이핑해 보세요. 암송 테스트에 완벽합니다.</li>
+      <li><strong>⌨️ 키보드 보기:</strong> 체크하면 화면 아래에 키보드가 나타나 타이핑할 때 누르는 키가 실시간으로 표시됩니다. 자판 위치를 익히거나 손가락을 확인할 때 좋습니다.</li>
       <li><strong>구절 이동:</strong> 타자 중 언제든 하단의 [← 이전 구절], [다음 구절 →] 버튼을 눌러 자유롭게 넘나들 수 있습니다.</li>
       <li><strong>긴 말씀:</strong> 타이핑하는 위치를 따라 화면이 자동으로 스크롤됩니다.</li>
       <li><strong>📌 이어서 연습:</strong> 마지막으로 연습하던 구절이 자동 저장되어, 다음에 프로그램을 열면 그 구절부터 이어서 시작합니다. 챕터를 끝까지 마치면 다음 챕터부터 시작합니다.</li>
@@ -415,10 +427,12 @@ const PRESET_OLD_TEXT = {
 let lang = 'ko';
 try { if (localStorage.getItem(LANG_KEY) === 'en') lang = 'en'; } catch (e) {}
 
-let chapterVerses = [], verseIdx = 0, current = null, isBlind = false, chapterResults = [], repeatCount = 0;
+// chapterResults: 현재 챕터에서 완료한 구절 기록 { 구절 id: 기록 } — 종료 후 다시 들어와도 이어지도록 저장됨
+let chapterVerses = [], verseIdx = 0, current = null, isBlind = false, chapterResults = {}, repeatCount = 0;
 let startTime = null, endTime = null, statTimer = null, isComposing = false;
 
 const tabManage = $('tab-manage'), tabPractice = $('tab-practice'), tabKeyboard = $('tab-keyboard'), secKeyboard = $('section-keyboard');
+const practiceKb = $('practice-kb');
 const secManage = $('section-manage'), secPractice = $('section-practice'), secResults = $('section-results');
 const inChapter = $('verse-chapter'), inRef = $('verse-ref'), inText = $('verse-text');
 const verseListEl = $('verse-list'), chapterSelect = $('chapter-select'), refDisplay = $('current-ref');
@@ -499,7 +513,6 @@ document.querySelectorAll('#lang-switch button').forEach(b => b.addEventListener
     }
   }
   setLangState(l);
-  chapterResults = [];
   if (chapterVerses.length) loadPractice();
 }));
 
@@ -520,7 +533,7 @@ function selectChapter(name, verseId) {
   chapterSelect.value = name;
   chapterVerses = verses.filter(v => v.chapter === name);
   verseIdx = Math.max(0, chapterVerses.findIndex(v => v.id === verseId));
-  chapterResults = []; repeatCount = 0;
+  chapterResults = loadAllResults()[name] || {}; repeatCount = 0;
   wpmDisplay.innerText = '0'; accuracyDisplay.innerText = '100';
   repeatToggle.checked = false;
   if (chapterVerses.length > 0) loadPractice();
@@ -546,6 +559,15 @@ function updateChapterSelect() {
 const RESUME_KEY = 'PracticeResume';
 function saveResume(chapter, id) {
   try { localStorage.setItem(RESUME_KEY, JSON.stringify({ chapter, id })); } catch (e) {}
+}
+const RESULTS_KEY = 'PracticeResults'; // { 챕터명: { 구절 id: 기록 } }
+function loadAllResults() {
+  try { return JSON.parse(localStorage.getItem(RESULTS_KEY)) || {}; } catch (e) { return {}; }
+}
+function saveChapterResults(chapter, records) {
+  const all = loadAllResults();
+  if (records && Object.keys(records).length) all[chapter] = records; else delete all[chapter];
+  try { localStorage.setItem(RESULTS_KEY, JSON.stringify(all)); } catch (e) {}
 }
 function readResume() {
   try { return JSON.parse(localStorage.getItem(RESUME_KEY)); } catch (e) { return null; }
@@ -725,7 +747,7 @@ function startRepeat(id) {
   verseIdx = chapterVerses.findIndex(v => v.id === id);
   chapterSelect.value = x.chapter;
   repeatToggle.checked = true;
-  repeatCount = 0; chapterResults = [];
+  repeatCount = 0; chapterResults = loadAllResults()[x.chapter] || {};
   showSection('practice');
   loadPractice();
 }
@@ -840,10 +862,16 @@ function syncCaret(scroll) {
     userInput.style.height = Math.max(cr.height, 20) + 'px';
   }
   if (!scroll) return;
-  const vh = viewportHeight(), offset = window.visualViewport ? window.visualViewport.offsetTop : 0;
+  const offset = window.visualViewport ? window.visualViewport.offsetTop : 0;
+  let vh = viewportHeight();
+  // 키보드 보기가 화면 아래에 붙어 있으면 그 위까지만 보이는 영역으로 계산
+  if (practiceKb.style.display !== 'none') {
+    const kr = practiceKb.getBoundingClientRect();
+    if (kr.bottom - offset >= vh - 2) vh = Math.max(100, kr.top - offset);
+  }
   const top = cr.top - offset, bottom = cr.bottom - offset;
   const margin = Math.min(140, vh * 0.25);
-  if (bottom > vh - margin) window.scrollBy(0, bottom - vh * 0.55);
+  if (bottom > vh - margin) window.scrollBy(0, bottom - vh * 0.6);
   else if (top < 10) window.scrollBy(0, top - vh * 0.3);
 }
 window.addEventListener('resize', () => syncCaret(false));
@@ -858,7 +886,9 @@ function goToNextVerse() {
   if (userInput.value.length !== current.text.length) return;
   clearInterval(statTimer);
   if (repeatToggle.checked) { repeatCount++; loadPractice(); return; }
-  chapterResults.push({ ref: current.ref, text: current.text, cpm: wpmDisplay.innerText, accuracy: accuracyDisplay.innerText });
+  const v = chapterVerses[verseIdx];
+  chapterResults[v.id] = { ref: current.ref, text: current.text, cpm: wpmDisplay.innerText, accuracy: accuracyDisplay.innerText };
+  saveChapterResults(v.chapter, chapterResults);
   verseIdx++; repeatCount = 0;
   if (verseIdx >= chapterVerses.length) showResults(); else loadPractice();
 }
@@ -868,12 +898,16 @@ function showResults() {
   const names = chapterNames(), next = names[(names.indexOf(chapterSelect.value) + 1) % names.length];
   const first = verses.find(v => v.chapter === next);
   if (first) saveResume(next, first.id);
+  // 이전에 저장된 기록까지 포함해 챕터 순서대로 표시하고, 저장된 기록은 비움 (다음 회차는 새로 시작)
+  const records = chapterVerses.filter(v => chapterResults[v.id]).map(v => chapterResults[v.id]);
+  saveChapterResults(chapterSelect.value, null);
+  chapterResults = {};
   showSection('results');
   $('results-chapter-title').innerText = `🎉 '${chapterSelect.value}' 암송 완료`;
   const list = $('results-list');
   list.innerHTML = '';
   let cpmSum = 0, accSum = 0;
-  chapterResults.forEach(x => {
+  records.forEach(x => {
     cpmSum += parseInt(x.cpm); accSum += parseInt(x.accuracy);
     const li = el('li');
     li.appendChild(el('span', 'verse-ref', x.ref));
@@ -883,7 +917,7 @@ function showResults() {
     li.appendChild(st);
     list.appendChild(li);
   });
-  const avgCpm = Math.round(cpmSum / chapterResults.length) || 0, avgAcc = Math.round(accSum / chapterResults.length) || 0;
+  const avgCpm = Math.round(cpmSum / records.length) || 0, avgAcc = Math.round(accSum / records.length) || 0;
   $('results-average-board').innerHTML = `<span>평균 타수 <strong>${avgCpm}</strong></span><span>평균 정확도 <strong>${avgAcc}</strong>%</span>`;
   window.scrollTo(0, 0);
 }
@@ -1030,9 +1064,52 @@ window.addEventListener('keyup', e => {
 }, true);
 window.addEventListener('blur', () => {
   kbPressed.clear();
-  KB_KEYS.forEach(k => k.el && k.el.classList.remove('pressed'));
+  KB_KEYS.forEach(k => {
+    if (k.el) k.el.classList.remove('pressed');
+    if (k.miniEl) k.miniEl.classList.remove('pressed');
+  });
   if (kbBuilt) updateKbStats();
 });
+
+// ===== 연습 화면의 '키보드 보기' (기능키·숫자패드 없이 타자용 자판만) =====
+const kbViewToggle = $('kbview-toggle');
+const MINI_KEYS = KB_KEYS.filter(k => k.y >= 1.5 && k.x < 15);
+let miniBuilt = false;
+function buildMiniKeyboard() {
+  if (miniBuilt) return;
+  const board = $('practice-keyboard'), W = 15, H = 5, oy = 1.5;
+  MINI_KEYS.forEach(k => {
+    const d = el('div', 'key');
+    d.style.left = (k.x / W * 100) + '%';
+    d.style.top = ((k.y - oy) / H * 100) + '%';
+    d.style.width = (k.w / W * 100) + '%';
+    d.style.height = (k.h / H * 100) + '%';
+    const face = el('span');
+    face.innerHTML = k.label;
+    d.appendChild(face);
+    board.appendChild(d);
+    k.miniEl = d;
+  });
+  miniBuilt = true;
+}
+function setKbView(on) {
+  kbViewToggle.checked = on;
+  if (on) buildMiniKeyboard();
+  practiceKb.style.display = on ? 'block' : 'none';
+  try { localStorage.setItem('ShowKeyboard', on ? '1' : '0'); } catch (e) {}
+}
+kbViewToggle.addEventListener('change', e => { setKbView(e.target.checked); focusInput(); });
+function miniActive() { return kbViewToggle.checked && secPractice.style.display !== 'none'; }
+window.addEventListener('keydown', e => {
+  if (!miniActive()) return;
+  const k = kbFind(e); // 한글 입력(IME) 중에도 e.code는 실제 누른 자리를 알려줌
+  if (k && k.miniEl) k.miniEl.classList.add('pressed');
+}, true);
+window.addEventListener('keyup', e => {
+  const k = kbFind(e); // 탭을 옮긴 뒤 키를 떼도 눌림 표시가 남지 않도록 항상 해제
+  if (k && k.miniEl) k.miniEl.classList.remove('pressed');
+}, true);
+try { if (localStorage.getItem('ShowKeyboard') === '1') setKbView(true); } catch (e) {}
 // ===== 마우스 테스트 =====
 const MS_BUTTONS = ['왼쪽 (L)', '가운데 (휠 클릭)', '오른쪽 (R)', '뒤로 (사이드)', '앞으로 (사이드)'];
 const MS_CHATTER_MS = 80; // 이보다 빠른 연속 클릭은 더블클릭 오작동 의심
