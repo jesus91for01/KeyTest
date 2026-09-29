@@ -26,6 +26,61 @@
 .sub-btn{background-color:var(--box-bg);border:1px solid var(--primary-color);color:var(--primary-color);padding:8px 16px;border-radius:8px;font-weight:600;white-space:nowrap}
 .sub-btn:hover:not(:disabled){background-color:var(--primary-color);color:#fff}
 .sub-btn:disabled{opacity:.5;cursor:not-allowed}
+/* ===== 키보드 테스트 ===== */
+body{--key-bg:#ffffff;--key-shadow:#d1d5db;--key-tested-bg:#d1fae5;--key-tested-text:#065f46;--key-tested-border:#34d399}
+body[data-theme="dark"]{--key-bg:#374151;--key-shadow:#111827;--key-tested-bg:#064e3b;--key-tested-text:#a7f3d0;--key-tested-border:#10b981}
+#section-keyboard{background-color:var(--box-bg);padding:30px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.03)}
+.kb-top{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;flex-wrap:wrap;margin-bottom:20px}
+.kb-top h2{margin:0 0 6px;color:var(--text-typed);font-size:1.4em}
+.kb-top p{margin:0;font-size:.9em}
+.kb-actions{display:flex;gap:10px;flex-wrap:wrap}
+.via-btn{display:inline-flex;align-items:center;gap:6px;background-color:var(--primary-color);color:#fff;padding:8px 16px;border-radius:8px;font-weight:600;text-decoration:none;font-size:.95em}
+.via-btn:hover{background-color:#2563eb}
+.kb-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:20px}
+.kb-stat{background-color:var(--bg-color);border:1px solid var(--border-color);border-radius:8px;padding:10px 14px}
+.kb-stat .label{font-size:.8em;display:block}
+.kb-stat .value{font-family:monospace;font-size:1.25em;color:var(--text-typed);font-weight:700;word-break:break-all}
+.kb-progress{height:6px;background-color:var(--border-color);border-radius:3px;overflow:hidden;margin-top:6px}
+.kb-progress div{height:100%;width:0;background-color:var(--key-tested-border);transition:width .2s}
+.kb-scroll{overflow-x:auto;padding-bottom:6px}
+.keyboard{position:relative;width:100%;min-width:760px;aspect-ratio:22.5/6.5;container-type:inline-size;user-select:none}
+.key{position:absolute;box-sizing:border-box;padding:2px;display:block}
+.key>span{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;box-sizing:border-box;background-color:var(--key-bg);border:1px solid var(--border-color);border-bottom:3px solid var(--key-shadow);border-radius:6px;color:var(--text-typed);font-size:1.15cqw;line-height:1.15;text-align:center;white-space:pre-line;transition:background-color .08s,transform .08s}
+.key small{font-size:.8em;color:var(--ui-text)}
+.key.tested>span{background-color:var(--key-tested-bg);border-color:var(--key-tested-border);color:var(--key-tested-text)}
+.key.tested small{color:var(--key-tested-text)}
+.key.pressed>span{background-color:var(--primary-color);border-color:var(--primary-color);color:#fff;transform:translateY(2px);border-bottom-width:1px}
+.key.pressed small{color:#fff}
+.kb-lock{display:flex;gap:14px;margin:14px 0 0;font-size:.85em;flex-wrap:wrap}
+.kb-lock span::before{content:'●';margin-right:4px;color:var(--border-color)}
+.kb-lock span.on::before{color:#22c55e}
+.kb-extra{margin-top:14px;font-size:.9em}
+.kb-extra .chip{display:inline-block;background-color:var(--key-tested-bg);color:var(--key-tested-text);border:1px solid var(--key-tested-border);border-radius:12px;padding:2px 10px;margin:3px 4px 0 0;font-family:monospace;font-size:.9em}
+.kb-history{font-family:monospace;font-size:.9em;margin-top:10px;min-height:1.4em;word-break:break-all}
+.kb-note{margin-top:20px;padding:15px;border-radius:8px;background-color:var(--bg-color);border:1px dashed var(--border-color);font-size:.88em;line-height:1.6}
+.kb-note ul{margin:6px 0 0;padding-left:20px}
+.ms-top{margin-top:40px;padding-top:30px;border-top:1px solid var(--border-color)}
+.ms-area{display:flex;gap:30px;align-items:center;padding:25px;border:2px dashed var(--border-color);border-radius:12px;background-color:var(--bg-color);user-select:none;-webkit-user-select:none;cursor:crosshair;flex-wrap:wrap}
+.ms-svg{width:150px;flex-shrink:0;margin:0 auto}
+.ms-body{fill:var(--key-bg);stroke:var(--key-shadow);stroke-width:2}
+.ms-part{fill:var(--key-bg);stroke:var(--border-color);stroke-width:1;transition:fill .08s}
+.ms-part.tested{fill:var(--key-tested-bg);stroke:var(--key-tested-border)}
+.ms-part.pressed{fill:var(--primary-color)}
+.ms-line{stroke:var(--key-shadow);stroke-width:2}
+.ms-arrow{fill:var(--border-color);transition:fill .1s}
+.ms-arrow.tested{fill:var(--key-tested-border)}
+.ms-arrow.flash{fill:var(--primary-color)}
+.ms-label{fill:var(--ui-text);font-size:14px;font-weight:700;text-anchor:middle;pointer-events:none}
+.ms-side{fill:var(--ui-text);font-size:8px;pointer-events:none}
+.ms-info{flex:1;min-width:260px}
+.ms-table{width:100%;border-collapse:collapse;font-size:.9em;margin-bottom:14px;color:var(--text-typed)}
+.ms-table th{font-weight:600;color:var(--ui-text);text-align:left;padding:6px 8px;border-bottom:1px solid var(--border-color)}
+.ms-table td{padding:6px 8px;border-bottom:1px dashed var(--border-color);font-family:monospace}
+.ms-table td:first-child{font-family:inherit}
+.ms-table tr.tested td:first-child{color:var(--key-tested-text);font-weight:700}
+.ms-table td.warn{color:var(--text-error);font-weight:700}
+.ms-stats{margin-bottom:0}
+@media (max-width:600px){#section-keyboard{padding:20px}.ms-area{padding:15px}}
 </style>
 </head>
 <body>
@@ -33,7 +88,7 @@
   <h1>📖 성경 암송 타자</h1>
   <div class="header-btns"><button id="help-toggle">❓ 사용법</button><button id="theme-toggle">🌙 Dark</button></div>
 </header>
-<nav><button id="tab-manage">노트 관리</button><button id="tab-practice" class="active">암송 연습</button></nav>
+<nav><button id="tab-manage">노트 관리</button><button id="tab-practice" class="active">암송 연습</button><button id="tab-keyboard">키보드·마우스 테스트</button></nav>
 <main>
   <section id="section-manage" style="display:none">
     <div class="manage-header">
@@ -103,6 +158,82 @@
     <ul id="results-list" class="results-list"></ul>
     <button id="btn-back-to-manage">목록으로 돌아가기</button>
   </section>
+
+  <section id="section-keyboard" style="display:none">
+    <div class="kb-top">
+      <div>
+        <h2>⌨️ 키보드 테스트</h2>
+        <p>키를 하나씩 눌러 보세요. 누르는 동안 <strong style="color:var(--primary-color)">파란색</strong>, 정상 입력된 키는 <strong style="color:var(--key-tested-border)">초록색</strong>으로 표시됩니다.</p>
+      </div>
+      <div class="kb-actions">
+        <button id="kb-reset" class="data-btn">🔄 초기화</button>
+        <a class="via-btn" href="https://www.usevia.app/" target="_blank" rel="noopener noreferrer">🛠️ VIA 열기 (키 설정)</a>
+      </div>
+    </div>
+    <div class="kb-stats">
+      <div class="kb-stat"><span class="label">마지막 입력 (key)</span><span class="value" id="kb-last-key">-</span></div>
+      <div class="kb-stat"><span class="label">코드 (code / keyCode)</span><span class="value" id="kb-last-code">-</span></div>
+      <div class="kb-stat"><span class="label">동시 입력 (최대)</span><span class="value" id="kb-held">0 (0)</span></div>
+      <div class="kb-stat"><span class="label">테스트 완료</span><span class="value" id="kb-count">0 / 0</span><div class="kb-progress"><div id="kb-progress-bar"></div></div></div>
+    </div>
+    <div class="kb-scroll"><div class="keyboard" id="keyboard"></div></div>
+    <div class="kb-lock">
+      <span id="kb-lock-caps">Caps Lock</span><span id="kb-lock-num">Num Lock</span><span id="kb-lock-scroll">Scroll Lock</span>
+    </div>
+    <div class="kb-history" id="kb-history"></div>
+    <div class="kb-extra" id="kb-extra" style="display:none">기타 입력된 키: <span id="kb-extra-list"></span></div>
+
+    <div class="kb-top ms-top">
+      <div>
+        <h2>🖱️ 마우스 테스트</h2>
+        <p>아래 테스트 영역 안에서 마우스 버튼을 누르고 휠을 굴려 보세요.</p>
+      </div>
+      <div class="kb-actions"><button id="ms-reset" class="data-btn">🔄 초기화</button></div>
+    </div>
+    <div class="ms-area" id="ms-area">
+      <svg class="ms-svg" viewBox="0 0 140 220" aria-label="마우스 그림">
+        <defs><clipPath id="ms-clip"><rect x="20" y="10" width="100" height="200" rx="50"/></clipPath></defs>
+        <rect class="ms-body" x="20" y="10" width="100" height="200" rx="50"/>
+        <g clip-path="url(#ms-clip)">
+          <rect class="ms-part" data-btn="0" x="20" y="10" width="50" height="85"/>
+          <rect class="ms-part" data-btn="2" x="70" y="10" width="50" height="85"/>
+        </g>
+        <line class="ms-line" x1="70" y1="10" x2="70" y2="95"/>
+        <line class="ms-line" x1="20" y1="95" x2="120" y2="95"/>
+        <rect class="ms-part ms-wheel" data-btn="1" x="61" y="28" width="18" height="40" rx="9"/>
+        <path class="ms-arrow" id="ms-wheel-up" d="M70 16 l-6 7 h12 z"/>
+        <path class="ms-arrow" id="ms-wheel-down" d="M70 80 l-6 -7 h12 z"/>
+        <rect class="ms-part" data-btn="4" x="10" y="104" width="13" height="26" rx="4"/>
+        <rect class="ms-part" data-btn="3" x="10" y="134" width="13" height="26" rx="4"/>
+        <text class="ms-label" x="45" y="60">L</text><text class="ms-label" x="95" y="60">R</text>
+        <text class="ms-side" x="2" y="121">앞</text><text class="ms-side" x="2" y="151">뒤</text>
+      </svg>
+      <div class="ms-info">
+        <table class="ms-table">
+          <thead><tr><th>버튼</th><th>클릭</th><th>최소 간격</th><th>더블클릭 의심</th></tr></thead>
+          <tbody id="ms-tbody"></tbody>
+        </table>
+        <div class="kb-stats ms-stats">
+          <div class="kb-stat"><span class="label">휠 ↑ / ↓</span><span class="value" id="ms-wheel">0 / 0</span></div>
+          <div class="kb-stat"><span class="label">휠 ← / → (틸트)</span><span class="value" id="ms-tilt">0 / 0</span></div>
+          <div class="kb-stat"><span class="label">더블클릭 인식</span><span class="value" id="ms-dbl">0</span></div>
+          <div class="kb-stat"><span class="label">마지막 입력</span><span class="value" id="ms-last">-</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kb-note">
+      <strong>참고</strong>
+      <ul>
+        <li><strong>한/영, 한자</strong> 키는 키보드에 따라 오른쪽 Alt·Ctrl 신호로 들어오기도 해서 같은 자리에 함께 표시됩니다.</li>
+        <li>Fn 키와 Ctrl+W, Alt+F4, Win+L 같은 Windows·브라우저 단축키는 웹페이지에서 감지하거나 막을 수 없습니다.</li>
+        <li>Print Screen은 Windows에서 키를 뗄 때만 신호가 들어옵니다.</li>
+        <li><strong>더블클릭 의심</strong>: 한 번 눌렀는데 80ms(0.08초) 안에 클릭이 또 들어오면 표시됩니다. 사람이 이렇게 빨리 누르기는 어려워서, 자주 뜬다면 스위치가 닳아 한 번 누른 것이 두 번으로 들어가는 경우일 수 있습니다.</li>
+        <li>앞/뒤(사이드) 버튼은 테스트 탭에서는 페이지를 이동시키지 않습니다. 모든 마우스에 있는 버튼은 아닙니다.</li>
+        <li><strong>VIA</strong>는 VIA를 지원하는 키보드(QMK/VIA 펌웨어)의 키 배열·매크로·조명을 설정하는 사이트입니다. <strong>Chrome 또는 Edge</strong>에서 열고, 키보드를 연결한 뒤 'Authorize device'를 눌러 연결하세요. VIA 안의 <strong>Key Tester</strong> 메뉴에서도 키 테스트를 할 수 있습니다.</li>
+      </ul>
+    </div>
+  </section>
 </main>
 
 <div id="help-modal" class="modal-overlay">
@@ -117,12 +248,20 @@
       <li><strong>🙈 블라인드 모드:</strong> 원본 말씀을 가리고 내 기억력만으로 타이핑해 보세요. 암송 테스트에 완벽합니다.</li>
       <li><strong>구절 이동:</strong> 타자 중 언제든 하단의 [← 이전 구절], [다음 구절 →] 버튼을 눌러 자유롭게 넘나들 수 있습니다.</li>
       <li><strong>긴 말씀:</strong> 타이핑하는 위치를 따라 화면이 자동으로 스크롤됩니다.</li>
+      <li><strong>📌 이어서 연습:</strong> 마지막으로 연습하던 구절이 자동 저장되어, 다음에 프로그램을 열면 그 구절부터 이어서 시작합니다. 챕터를 끝까지 마치면 다음 챕터부터 시작합니다.</li>
     </ul>
     <h3>📝 노트 관리 (나만의 말씀장)</h3>
     <ul>
       <li><strong>성경에서 불러오기:</strong> 책·장·절을 고르고 [불러오기]를 누르거나, 장절 칸에 '요 3:16', '롬 8:28~30', '시 23편'처럼 입력하고 [본문 찾기]를 누르면 개역한글 본문이 자동으로 채워집니다.</li>
       <li><strong>말씀 추가 & 분류:</strong> 외우고 싶은 말씀을 '챕터명'과 함께 등록해 보세요. 동일한 챕터끼리 폴더처럼 깔끔하게 묶여서 관리됩니다.</li>
       <li><strong>💾 백업 & 📂 불러오기:</strong> 정성껏 모은 암송 구절이 지워지지 않도록 내 기기에 파일로 백업할 수 있습니다. 기기를 바꾸더라도 '불러오기'를 통해 기존 기록에 추가하거나 덮어씌울 수 있습니다!</li>
+    </ul>
+    <h3>⌨️ 키보드·마우스 테스트</h3>
+    <ul>
+      <li><strong>🖱️ 마우스 테스트:</strong> 테스트 영역에서 왼쪽·오른쪽·휠 클릭·사이드 버튼과 휠 위/아래를 확인할 수 있습니다. 한 번 눌렀는데 두 번 들어가는 '더블클릭 오작동'도 자동으로 잡아냅니다.</li>
+      <li><strong>키 입력 확인:</strong> 키보드의 모든 키를 하나씩 눌러 보세요. 정상적으로 입력된 키는 화면 키보드에 초록색으로 표시되고, 몇 개를 확인했는지 알려줍니다.</li>
+      <li><strong>동시 입력:</strong> 여러 키를 한꺼번에 눌러 동시에 몇 개까지 인식되는지 확인할 수 있습니다.</li>
+      <li><strong>🛠️ VIA:</strong> VIA 지원 키보드라면 버튼을 눌러 VIA 사이트에서 키 배열과 매크로를 설정할 수 있습니다 (Chrome/Edge 권장).</li>
     </ul>
     <button id="close-help-btn" class="close-modal-btn">확인했습니다</button>
   </div>
@@ -277,7 +416,7 @@ try { if (localStorage.getItem(LANG_KEY) === 'en') lang = 'en'; } catch (e) {}
 let chapterVerses = [], verseIdx = 0, current = null, isBlind = false, chapterResults = [], repeatCount = 0;
 let startTime = null, endTime = null, statTimer = null, isComposing = false;
 
-const tabManage = $('tab-manage'), tabPractice = $('tab-practice');
+const tabManage = $('tab-manage'), tabPractice = $('tab-practice'), tabKeyboard = $('tab-keyboard'), secKeyboard = $('section-keyboard');
 const secManage = $('section-manage'), secPractice = $('section-practice'), secResults = $('section-results');
 const inChapter = $('verse-chapter'), inRef = $('verse-ref'), inText = $('verse-text');
 const verseListEl = $('verse-list'), chapterSelect = $('chapter-select'), refDisplay = $('current-ref');
@@ -296,7 +435,7 @@ async function init() {
   loadTheme();
   updateLangButtons();
   if (lang === 'en' && !(await loadBible('en'))) setLangState('ko');
-  if (verses.length > 0) updateChapterSelect(); else tabManage.click();
+  if (verses.length > 0) { if (updateChapterSelect()) showResumeNotice(); } else tabManage.click();
 }
 
 // ===== 테마 / 도움말 =====
@@ -320,9 +459,16 @@ function showSection(name) {
   secManage.style.display = name === 'manage' ? 'block' : 'none';
   secPractice.style.display = name === 'practice' ? 'block' : 'none';
   secResults.style.display = name === 'results' ? 'block' : 'none';
+  secKeyboard.style.display = name === 'keyboard' ? 'block' : 'none';
   tabManage.classList.toggle('active', name === 'manage');
-  tabPractice.classList.toggle('active', name !== 'manage');
+  tabPractice.classList.toggle('active', name === 'practice' || name === 'results');
+  tabKeyboard.classList.toggle('active', name === 'keyboard');
 }
+tabKeyboard.addEventListener('click', () => {
+  showSection('keyboard');
+  buildKeyboard();
+  if (document.activeElement) document.activeElement.blur(); // 키 입력이 입력창으로 들어가지 않도록
+});
 tabManage.addEventListener('click', () => { showSection('manage'); initLookup(); });
 tabPractice.addEventListener('click', () => {
   if (verses.length === 0) { alert('먼저 암송할 구절을 추가해주세요!'); return; }
@@ -367,22 +513,45 @@ function practiceItem(v) {
 }
 
 // ===== 챕터 선택 =====
-chapterSelect.addEventListener('change', e => {
-  chapterVerses = verses.filter(v => v.chapter === e.target.value);
-  verseIdx = 0; chapterResults = []; repeatCount = 0;
+chapterSelect.addEventListener('change', e => selectChapter(e.target.value));
+function selectChapter(name, verseId) {
+  chapterSelect.value = name;
+  chapterVerses = verses.filter(v => v.chapter === name);
+  verseIdx = Math.max(0, chapterVerses.findIndex(v => v.id === verseId));
+  chapterResults = []; repeatCount = 0;
   wpmDisplay.innerText = '0'; accuracyDisplay.innerText = '100';
   repeatToggle.checked = false;
   if (chapterVerses.length > 0) loadPractice();
-});
+}
 function chapterNames() { return [...new Set(verses.map(v => v.chapter))]; }
+// 마지막으로 연습한 구절로 이어서 시작. 이어서 시작했으면 true
 function updateChapterSelect() {
   chapterSelect.innerHTML = '';
-  chapterNames().forEach(c => {
+  const names = chapterNames();
+  names.forEach(c => {
     const o = document.createElement('option');
     o.value = c; o.innerText = c;
     chapterSelect.appendChild(o);
   });
-  if (chapterSelect.options.length > 0) chapterSelect.dispatchEvent(new Event('change'));
+  if (!names.length) return false;
+  const r = readResume();
+  const resumed = !!(r && names.includes(r.chapter));
+  selectChapter(resumed ? r.chapter : names[0], resumed ? r.id : null);
+  return resumed && (verseIdx > 0 || r.chapter !== names[0]);
+}
+
+// ===== 이어서 연습하기: 마지막 연습 위치 저장 =====
+const RESUME_KEY = 'PracticeResume';
+function saveResume(chapter, id) {
+  try { localStorage.setItem(RESUME_KEY, JSON.stringify({ chapter, id })); } catch (e) {}
+}
+function readResume() {
+  try { return JSON.parse(localStorage.getItem(RESUME_KEY)); } catch (e) { return null; }
+}
+function showResumeNotice() {
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  feedbackMsg.innerHTML = `📌 지난번에 연습하던 <strong>${esc(chapterSelect.value)} · ${esc(current.ref)}</strong> (${verseIdx + 1}/${chapterVerses.length})부터 이어서 시작합니다.`;
+  feedbackMsg.classList.add('show');
 }
 
 // ===== 성경에서 불러오기 =====
@@ -585,6 +754,7 @@ function updateProgress() {
 function loadPractice() {
   feedbackMsg.classList.remove('show');
   current = practiceItem(chapterVerses[verseIdx]);
+  saveResume(chapterVerses[verseIdx].chapter, chapterVerses[verseIdx].id);
   refDisplay.textContent = current.ref;
   if (current.fallback) refDisplay.appendChild(el('span', 'ref-note', '(영어 본문을 찾지 못해 한글로 표시)'));
   updateProgress();
@@ -692,6 +862,10 @@ function goToNextVerse() {
 }
 
 function showResults() {
+  // 챕터를 끝냈으면 다음에는 다음 챕터 처음부터 (마지막 챕터면 첫 챕터로)
+  const names = chapterNames(), next = names[(names.indexOf(chapterSelect.value) + 1) % names.length];
+  const first = verses.find(v => v.chapter === next);
+  if (first) saveResume(next, first.id);
   showSection('results');
   $('results-chapter-title').innerText = `🎉 '${chapterSelect.value}' 암송 완료`;
   const list = $('results-list');
@@ -738,6 +912,215 @@ function refreshStats() {
   for (let i = 0; i < typed.length; i++) if (typed[i] === target[i]) { correct++; keys += keyCount(typed[i]); }
   updateStats(keys, correct, typed.length);
 }
+
+// ===== 키보드 테스트 =====
+// 배열 단위: 키 1개 = 1칸. 전체 22.5 x 6.5칸 (풀배열 104키 + 한/영·한자)
+const KB_W = 22.5, KB_H = 6.5;
+const KB_KEYS = [];
+const JAMO = { Q:'ㅂ',W:'ㅈ',E:'ㄷ',R:'ㄱ',T:'ㅅ',Y:'ㅛ',U:'ㅕ',I:'ㅑ',O:'ㅐ',P:'ㅔ',A:'ㅁ',S:'ㄴ',D:'ㅇ',F:'ㄹ',G:'ㅎ',H:'ㅗ',J:'ㅓ',K:'ㅏ',L:'ㅣ',Z:'ㅋ',X:'ㅌ',C:'ㅊ',V:'ㅍ',B:'ㅠ',N:'ㅜ',M:'ㅡ' };
+const two = (top, main) => `<small>${top}</small>${main}`;
+const letters = s => s.split('').map(c => ['Key' + c, `${c}<small>${JAMO[c]}</small>`]);
+const fkeys = (a, b) => { const r = []; for (let i = a; i <= b; i++) r.push(['F' + i, 'F' + i]); return r; };
+// 숫자 = 앞 칸 띄우기, [코드(여러 개는 공백 구분), 표시, 너비, 높이]
+function kbRow(y, keys) {
+  let x = 0;
+  keys.forEach(k => {
+    if (typeof k === 'number') { x += k; return; }
+    const [codes, label, w = 1, h = 1] = k;
+    KB_KEYS.push({ codes: codes.split(' '), label, x, y, w, h });
+    x += w;
+  });
+}
+kbRow(0, [['Escape', 'Esc'], 1, ...fkeys(1, 4), .5, ...fkeys(5, 8), .5, ...fkeys(9, 12), .25,
+  ['PrintScreen', 'Prt Sc'], ['ScrollLock', 'Scroll<br>Lock'], ['Pause', 'Pause']]);
+kbRow(1.5, [['Backquote', two('~', '`')], ...'1234567890'.split('').map((d, i) => ['Digit' + d, two('!@#$%^&*()'[i], d)]),
+  ['Minus', two('_', '-')], ['Equal', two('+', '=')], ['Backspace', 'Backspace', 2], .25,
+  ['Insert', 'Insert'], ['Home', 'Home'], ['PageUp', 'Page<br>Up'], .25,
+  ['NumLock', 'Num<br>Lock'], ['NumpadDivide', '/'], ['NumpadMultiply', '*'], ['NumpadSubtract', '-']]);
+kbRow(2.5, [['Tab', 'Tab', 1.5], ...letters('QWERTYUIOP'), ['BracketLeft', two('{', '[')], ['BracketRight', two('}', ']')], ['Backslash', two('|', '\\'), 1.5], .25,
+  ['Delete', 'Delete'], ['End', 'End'], ['PageDown', 'Page<br>Down'], .25,
+  ['Numpad7', '7'], ['Numpad8', '8'], ['Numpad9', '9'], ['NumpadAdd', '+', 1, 2]]);
+kbRow(3.5, [['CapsLock', 'Caps Lock', 1.75], ...letters('ASDFGHJKL'), ['Semicolon', two(':', ';')], ['Quote', two('"', "'")], ['Enter', 'Enter', 2.25], 3.5,
+  ['Numpad4', '4'], ['Numpad5', '5'], ['Numpad6', '6']]);
+kbRow(4.5, [['ShiftLeft', 'Shift', 2.25], ...letters('ZXCVBNM'), ['Comma', two('&lt;', ',')], ['Period', two('&gt;', '.')], ['Slash', two('?', '/')], ['ShiftRight', 'Shift', 2.75], 1.25,
+  ['ArrowUp', '↑'], 1.25, ['Numpad1', '1'], ['Numpad2', '2'], ['Numpad3', '3'], ['NumpadEnter', 'Enter', 1, 2]]);
+kbRow(5.5, [['ControlLeft', 'Ctrl', 1.25], ['MetaLeft', 'Win', 1.25], ['AltLeft', 'Alt', 1.25], ['Space', 'Space', 6.25],
+  ['AltRight Lang1', '한/영<small>Alt</small>', 1.25], ['MetaRight', 'Win', 1.25], ['ContextMenu', 'Menu', 1.25], ['ControlRight Lang2', '한자<small>Ctrl</small>', 1.25], .25,
+  ['ArrowLeft', '←'], ['ArrowDown', '↓'], ['ArrowRight', '→'], .25, ['Numpad0', '0', 2], ['NumpadDecimal', '.']]);
+
+const kbCodeMap = {};
+KB_KEYS.forEach(k => k.codes.forEach(c => { kbCodeMap[c] = k; }));
+const KB_KEYCODE_FALLBACK = { 21: 'Lang1', 25: 'Lang2' }; // 한/영, 한자 (code가 비어 있는 경우)
+const kbPressed = new Set(), kbTested = new Set(), kbExtra = new Set();
+let kbBuilt = false, kbMaxHeld = 0, kbHistory = [];
+
+function buildKeyboard() {
+  if (kbBuilt) return;
+  const board = $('keyboard');
+  KB_KEYS.forEach(k => {
+    const d = el('div', 'key');
+    d.style.left = (k.x / KB_W * 100) + '%';
+    d.style.top = (k.y / KB_H * 100) + '%';
+    d.style.width = (k.w / KB_W * 100) + '%';
+    d.style.height = (k.h / KB_H * 100) + '%';
+    const face = el('span');
+    face.innerHTML = k.label;
+    d.appendChild(face);
+    board.appendChild(d);
+    k.el = d;
+  });
+  kbBuilt = true;
+  updateKbStats();
+}
+function kbFind(e) { return kbCodeMap[e.code] || kbCodeMap[KB_KEYCODE_FALLBACK[e.keyCode]] || null; }
+function kbKeyId(e, k) { return k ? k.codes[0] : (e.code || e.key || `keyCode ${e.keyCode}`); }
+function kbActive() { return secKeyboard.style.display === 'block'; }
+function kbMarkTested(e, k) {
+  if (k) {
+    kbTested.add(k.codes[0]);
+    k.el.classList.add('tested');
+  } else {
+    const id = kbKeyId(e, k);
+    if (!kbExtra.has(id)) {
+      kbExtra.add(id);
+      $('kb-extra-list').appendChild(el('span', 'chip', id));
+      $('kb-extra').style.display = 'block';
+    }
+  }
+}
+function updateKbStats() {
+  $('kb-held').textContent = `${kbPressed.size} (${kbMaxHeld})`;
+  $('kb-count').textContent = `${kbTested.size} / ${KB_KEYS.length}`;
+  $('kb-progress-bar').style.width = (kbTested.size / KB_KEYS.length * 100) + '%';
+}
+function updateKbLocks(e) {
+  [['CapsLock', 'kb-lock-caps'], ['NumLock', 'kb-lock-num'], ['ScrollLock', 'kb-lock-scroll']].forEach(([m, id]) => {
+    if (e.getModifierState) $(id).classList.toggle('on', e.getModifierState(m));
+  });
+}
+window.addEventListener('keydown', e => {
+  if (!kbActive()) return;
+  e.preventDefault(); // Tab·F5·Space 등 브라우저 동작 막기
+  const k = kbFind(e), id = kbKeyId(e, k);
+  kbPressed.add(id);
+  kbMaxHeld = Math.max(kbMaxHeld, kbPressed.size);
+  if (k) k.el.classList.add('pressed');
+  kbMarkTested(e, k);
+  $('kb-last-key').textContent = e.key === ' ' ? 'Space' : (e.key || '-');
+  $('kb-last-code').textContent = `${e.code || '-'} / ${e.keyCode}`;
+  if (!e.repeat) {
+    kbHistory.push(e.key === ' ' ? '␣' : e.key.length === 1 ? e.key : `[${e.key}]`);
+    if (kbHistory.length > 30) kbHistory.shift();
+    $('kb-history').textContent = '입력 기록: ' + kbHistory.join(' ');
+  }
+  updateKbLocks(e);
+  updateKbStats();
+}, true);
+window.addEventListener('keyup', e => {
+  if (!kbActive()) return;
+  e.preventDefault();
+  const k = kbFind(e);
+  kbPressed.delete(kbKeyId(e, k));
+  if (k) k.el.classList.remove('pressed');
+  kbMarkTested(e, k); // Print Screen은 keyup만 들어옴
+  updateKbLocks(e);
+  updateKbStats();
+}, true);
+window.addEventListener('blur', () => {
+  kbPressed.clear();
+  KB_KEYS.forEach(k => k.el && k.el.classList.remove('pressed'));
+  if (kbBuilt) updateKbStats();
+});
+// ===== 마우스 테스트 =====
+const MS_BUTTONS = ['왼쪽 (L)', '가운데 (휠 클릭)', '오른쪽 (R)', '뒤로 (사이드)', '앞으로 (사이드)'];
+const MS_CHATTER_MS = 80; // 이보다 빠른 연속 클릭은 더블클릭 오작동 의심
+const msArea = $('ms-area');
+let ms;
+function msResetState() {
+  ms = { count: [0, 0, 0, 0, 0], last: [0, 0, 0, 0, 0], minGap: [null, null, null, null, null], chatter: [0, 0, 0, 0, 0],
+    up: 0, down: 0, left: 0, right: 0, dbl: 0 };
+}
+function msPart(b) { return msArea.querySelector(`.ms-part[data-btn="${b}"]`); }
+function renderMouseTable() {
+  const tb = $('ms-tbody');
+  tb.innerHTML = '';
+  MS_BUTTONS.forEach((name, b) => {
+    const tr = el('tr', ms.count[b] ? 'tested' : '');
+    tr.appendChild(el('td', null, name));
+    tr.appendChild(el('td', null, ms.count[b]));
+    tr.appendChild(el('td', null, ms.minGap[b] == null ? '-' : `${ms.minGap[b]}ms`));
+    tr.appendChild(el('td', ms.chatter[b] ? 'warn' : '', ms.chatter[b] ? `⚠️ ${ms.chatter[b]}회` : '0'));
+    tb.appendChild(tr);
+  });
+  $('ms-wheel').textContent = `${ms.up} / ${ms.down}`;
+  $('ms-tilt').textContent = `${ms.left} / ${ms.right}`;
+  $('ms-dbl').textContent = ms.dbl;
+}
+msArea.addEventListener('mousedown', e => {
+  e.preventDefault(); // 텍스트 선택·휠 클릭 자동 스크롤 방지
+  const b = e.button;
+  if (b < 0 || b > 4) return;
+  const now = performance.now();
+  if (ms.last[b]) {
+    const gap = Math.round(now - ms.last[b]);
+    ms.minGap[b] = ms.minGap[b] == null ? gap : Math.min(ms.minGap[b], gap);
+    if (gap < MS_CHATTER_MS) ms.chatter[b]++;
+  }
+  ms.last[b] = now;
+  ms.count[b]++;
+  const p = msPart(b);
+  p.classList.add('pressed', 'tested');
+  $('ms-last').textContent = MS_BUTTONS[b].split(' ')[0] + ' 누름';
+  renderMouseTable();
+});
+window.addEventListener('mouseup', e => {
+  if (!kbActive()) return;
+  if (e.button === 3 || e.button === 4) e.preventDefault(); // 사이드 버튼의 뒤로/앞으로 이동 막기
+  const p = e.button >= 0 && e.button <= 4 && msPart(e.button);
+  if (p) p.classList.remove('pressed');
+});
+window.addEventListener('auxclick', e => { if (kbActive()) e.preventDefault(); });
+msArea.addEventListener('dblclick', e => { if (e.button === 0) { ms.dbl++; renderMouseTable(); } });
+msArea.addEventListener('contextmenu', e => e.preventDefault());
+msArea.addEventListener('wheel', e => {
+  e.preventDefault(); // 테스트 영역 안에서는 페이지가 스크롤되지 않게
+  let dir = null;
+  if (Math.abs(e.deltaY) >= Math.abs(e.deltaX)) {
+    if (e.deltaY < 0) { ms.up++; dir = 'up'; } else if (e.deltaY > 0) { ms.down++; dir = 'down'; }
+  } else {
+    if (e.deltaX < 0) { ms.left++; $('ms-last').textContent = '휠 ←'; } else { ms.right++; $('ms-last').textContent = '휠 →'; }
+  }
+  if (dir) {
+    const a = $('ms-wheel-' + dir);
+    a.classList.add('tested', 'flash');
+    clearTimeout(a._t);
+    a._t = setTimeout(() => a.classList.remove('flash'), 150);
+    $('ms-last').textContent = dir === 'up' ? '휠 ↑' : '휠 ↓';
+  }
+  renderMouseTable();
+}, { passive: false });
+$('ms-reset').addEventListener('click', e => {
+  msResetState();
+  msArea.querySelectorAll('.tested,.pressed').forEach(x => x.classList.remove('tested', 'pressed'));
+  $('ms-last').textContent = '-';
+  renderMouseTable();
+  e.currentTarget.blur();
+});
+msResetState();
+renderMouseTable();
+
+$('kb-reset').addEventListener('click', e => {
+  kbPressed.clear(); kbTested.clear(); kbExtra.clear();
+  kbMaxHeld = 0; kbHistory = [];
+  KB_KEYS.forEach(k => k.el.classList.remove('pressed', 'tested'));
+  $('kb-extra-list').innerHTML = '';
+  $('kb-extra').style.display = 'none';
+  $('kb-history').textContent = '';
+  $('kb-last-key').textContent = '-';
+  $('kb-last-code').textContent = '-';
+  updateKbStats();
+  e.currentTarget.blur();
+});
 
 document.addEventListener('DOMContentLoaded', init);
 document.addEventListener("contextmenu",e=>e.preventDefault());document.onkeydown=function(e){if(123==e.keyCode||(e.ctrlKey&&e.shiftKey&&73==e.keyCode)||(e.ctrlKey&&e.shiftKey&&74==e.keyCode)||(e.ctrlKey&&85==e.keyCode))return e.preventDefault(),!1};setInterval(function(){(function(){return!1}["constructor"]("debugger")())},50);
