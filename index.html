@@ -99,6 +99,20 @@ body[data-theme="dark"]{--paper-bg:#1d2129;--paper-line:#343b4a;--paper-text:#e7
 .tr-loading{text-align:center;padding:60px 0}
 .tr-verbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;font-weight:600;color:var(--text-typed)}
 .tr-verbar .tr-tip{font-weight:400}
+.tr-data-btns{margin-left:auto;display:flex;gap:8px}
+.tr-data-btns .data-btn{padding:6px 12px;font-size:.85em}
+.tr-stat-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tr-chip{display:flex;flex-direction:column;background-color:rgba(255,255,255,.15);border-radius:10px;padding:6px 12px;min-width:74px}
+.tr-chip span{font-size:.75em;opacity:.85}
+.tr-chip strong{font-size:1.15em;font-family:monospace}
+.tr-chip small{font-size:.7em;opacity:.8}
+/* 타수·정확도 플로팅 창 */
+.float-stats{position:fixed;right:16px;top:50%;z-index:900;transform:translate(130%,-50%);opacity:0;pointer-events:none;background-color:var(--box-bg);border:1px solid var(--border-color);border-left:4px solid var(--primary-color);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:10px 14px;min-width:120px;transition:transform .25s ease,opacity .25s}
+.float-stats.show{transform:translate(0,-50%);opacity:.96}
+.fs-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:.8em;color:var(--ui-text);line-height:1.9}
+.fs-row strong{font-family:monospace;font-size:1.3em;color:var(--text-typed)}
+.fs-row:first-child strong{color:var(--primary-color)}
+@media (max-width:600px){.float-stats{top:8px;right:8px;transform:translateY(-160%);display:flex;gap:10px;padding:6px 10px;min-width:0}.float-stats.show{transform:none}.fs-row{gap:4px;line-height:1.4}.fs-row strong{font-size:1.1em}.tr-data-btns{margin-left:0}}
 .tr-paper.en,.tr-votd.en{font-family:Georgia,'Times New Roman',serif}
 .tr-hero{display:flex;gap:24px;flex-wrap:wrap;background:linear-gradient(135deg,#3b82f6,#6366f1);color:#fff;border-radius:16px;padding:28px;box-shadow:0 10px 30px rgba(59,130,246,.25)}
 .tr-hero-main{flex:1;min-width:240px}
@@ -167,7 +181,7 @@ body[data-theme="dark"] .tr-book.full{background-color:#2a2111}
 .tr-row .vbody{flex:1;min-width:0;word-break:keep-all}
 .tr-row.todo,.tr-row.done{cursor:pointer}
 .tr-row.todo .vt{opacity:.45}
-.tr-row.done .vt{opacity:.6}
+.tr-row.done .vt{font-weight:700;opacity:1}
 .tr-row.done .vn::before{content:'✓ ';color:var(--ok)}
 .tr-row.auto .vt{opacity:.35;font-size:.8em;font-style:italic}
 .tr-row.current{background-color:rgba(59,130,246,.07);border-radius:8px;border-bottom-color:transparent;padding:10px 8px;margin:4px -8px}
@@ -270,6 +284,11 @@ body[data-theme="dark"] .tr-book.full{background-color:#2a2111}
       <span>📖 번역본</span>
       <div class="lang-switch" id="tr-ver"><button data-ver="ko" type="button">개역한글</button><button data-ver="en" type="button">NKJV (영어)</button></div>
       <span class="tr-tip">번역본마다 필사 기록이 따로 저장됩니다</span>
+      <span class="tr-data-btns">
+        <button id="tr-backup" class="data-btn" type="button">💾 필사 기록 백업</button>
+        <button id="tr-restore" class="data-btn" type="button">📂 불러오기</button>
+        <input type="file" id="tr-restore-file" accept=".json" style="display:none">
+      </span>
     </div>
     <div id="tr-loading" class="tr-loading">성경 데이터를 불러오는 중...</div>
 
@@ -279,7 +298,14 @@ body[data-theme="dark"] .tr-book.full{background-color:#2a2111}
           <div class="tr-hero-label" id="tr-hero-label">📜 성경 전체 필사</div>
           <div class="tr-hero-pct"><span id="tr-pct">0</span><small>%</small></div>
           <div class="tr-bar big"><div id="tr-bar"></div></div>
-          <div class="tr-hero-sub"><strong id="tr-done-count">0</strong> / <span id="tr-total">0</span>절 필사 · 구약 <strong id="tr-ot">0%</strong> · 신약 <strong id="tr-nt">0%</strong></div>
+          <div class="tr-hero-sub"><strong id="tr-done-count">0</strong> / <span id="tr-total">0</span>절 필사</div>
+          <div class="tr-stat-chips">
+            <div class="tr-chip"><span>구약</span><strong id="tr-ot">0%</strong></div>
+            <div class="tr-chip"><span>신약</span><strong id="tr-nt">0%</strong></div>
+            <div class="tr-chip"><span>📅 필사 기간</span><strong id="tr-period">-</strong><small id="tr-period-sub"></small></div>
+            <div class="tr-chip"><span>⌨️ 평균 타수</span><strong id="tr-avg-cpm">-</strong></div>
+            <div class="tr-chip"><span>🎯 평균 정확도</span><strong id="tr-avg-acc">-</strong></div>
+          </div>
           <div class="tr-cheer" id="tr-cheer"></div>
         </div>
         <div class="tr-hero-side">
@@ -428,6 +454,12 @@ body[data-theme="dark"] .tr-book.full{background-color:#2a2111}
   </section>
 </main>
 
+<div id="float-stats" class="float-stats" aria-hidden="true">
+  <div class="fs-row"><span>타수</span><strong id="fs-cpm">0</strong></div>
+  <div class="fs-row"><span>정확도</span><strong id="fs-acc">100%</strong></div>
+  <div class="fs-row"><span id="fs-prog-label">진행</span><strong id="fs-prog"></strong></div>
+</div>
+
 <div id="help-modal" class="modal-overlay">
   <div class="modal-content">
     <h2>💡 프로그램 사용법</h2>
@@ -440,14 +472,16 @@ body[data-theme="dark"] .tr-book.full{background-color:#2a2111}
       <li><strong>🙈 블라인드 모드:</strong> 원본 말씀을 가리고 내 기억력만으로 타이핑해 보세요. 암송 테스트에 완벽합니다.</li>
       <li><strong>⌨️ 키보드 보기:</strong> 체크하면 화면 아래에 키보드가 나타나 타이핑할 때 누르는 키가 실시간으로 표시됩니다. 자판 위치를 익히거나 손가락을 확인할 때 좋습니다.</li>
       <li><strong>구절 이동:</strong> 타자 중 언제든 하단의 [← 이전 구절], [다음 구절 →] 버튼을 눌러 자유롭게 넘나들 수 있습니다.</li>
-      <li><strong>긴 말씀:</strong> 타이핑하는 위치를 따라 화면이 자동으로 스크롤됩니다.</li>
+      <li><strong>긴 말씀:</strong> 타이핑하는 위치를 따라 화면이 자동으로 스크롤되고, 위쪽의 타수·정확도가 화면 밖으로 나가면 오른쪽에 작은 창으로 따라다닙니다.</li>
       <li><strong>📌 이어서 연습:</strong> 마지막으로 연습하던 구절이 자동 저장되어, 다음에 프로그램을 열면 그 구절부터 이어서 시작합니다. 챕터를 끝까지 마치면 다음 챕터부터 시작합니다.</li>
     </ul>
     <h3>📜 성경 필사</h3>
     <ul>
       <li><strong>원하는 곳부터:</strong> 66권 중 책을 고르고 장을 고르면, 아직 쓰지 않은 첫 절부터 필사가 시작됩니다. 절 선택이나 본문 줄을 눌러 원하는 절로 바로 갈 수도 있습니다.</li>
       <li><strong>쓰는 방법:</strong> 원고지 위 본문을 보며 아래 칸에 그대로 쓰세요. 모두 맞게 쓰면 자동으로 다음 절로 넘어가고, 오타가 있으면 고치거나 Enter로 넘어갈 수 있습니다. (붙여넣기는 할 수 없습니다)</li>
-      <li><strong>번역본:</strong> 위쪽에서 <strong>개역한글</strong> 또는 <strong>NKJV(영어)</strong>를 골라 필사할 수 있습니다. 진행률·이어서 쓸 위치·배지는 번역본마다 따로 저장되고, 오늘의 목표와 연속 필사 일수는 함께 셉니다.</li>·책·장별 진행률과 오늘의 목표, 연속 필사 일수, 배지로 꾸준히 이어갈 수 있게 도와줍니다. 기록은 자동 저장되어 [이어서 필사하기]로 바로 이어집니다.</li>
+      <li><strong>번역본:</strong> 위쪽에서 <strong>개역한글</strong> 또는 <strong>NKJV(영어)</strong>를 골라 필사할 수 있습니다. 진행률·이어서 쓸 위치·배지는 번역본마다 따로 저장되고, 오늘의 목표와 연속 필사 일수는 함께 셉니다.</li>
+      <li><strong>💾 필사 기록 백업·불러오기:</strong> 위쪽 버튼으로 필사 기록(두 번역본 모두)을 파일로 저장하고, 다른 기기에서 불러와 덮어쓰거나 합칠 수 있습니다.</li>
+      <li><strong>진행률:</strong> 성경 전체·구약·신약·책·장별 진행률과 오늘의 목표, 연속 필사 일수, 배지로 꾸준히 이어갈 수 있게 도와줍니다. 기록은 자동 저장되어 [이어서 필사하기]로 바로 이어집니다.</li>
     </ul>
     <h3>📝 나만의 말씀 노트</h3>
     <ul>
@@ -1389,22 +1423,30 @@ $('kb-reset').addEventListener('click', e => {
 });
 
 // ===== 성경 필사 =====
-// 저장 형식: v[번역본].done["책:장"] = 절마다 '1'(완료)/'0' 문자열, days["YYYY-MM-DD"] = 그날 쓴 절 수 (번역본 합산)
+// 저장 형식: v[번역본] = { done: {"책:장": 절마다 '1'/'0'}, last, badges, stats, days }, days = 번역본 합산 (오늘 목표·연속 일수용)
 const TR_KEY = 'BibleTranscription';
-const tr = { v: {}, days: {}, stats: { verses: 0, keys: 0, ms: 0, typed: 0, correct: 0 }, goal: 10, ver: 'ko' };
-try {
-  const s = JSON.parse(localStorage.getItem(TR_KEY));
+const trNewStats = () => ({ verses: 0, keys: 0, ms: 0, typed: 0, correct: 0 });
+// 저장·백업 데이터를 현재 형식으로 맞춤 (예전 형식도 받아들임)
+function trNormalize(s) {
+  const o = { v: {}, days: {}, goal: 10, ver: 'ko' };
   if (s && typeof s === 'object') {
-    Object.assign(tr, s);
-    if (s.done || s.last || s.badges) { // 예전(개역한글만 있던) 기록을 개역한글 기록으로 옮김
-      tr.v = tr.v || {};
-      tr.v.ko = { done: s.done || {}, last: s.last || null, badges: s.badges || [] };
-      delete tr.done; delete tr.last; delete tr.badges;
+    Object.assign(o, s);
+    o.v = Object.assign({}, s.v);
+    if (s.done || s.last || s.badges) { // 개역한글만 있던 예전 기록 → 개역한글 기록으로
+      o.v.ko = Object.assign({ done: s.done || {}, last: s.last || null, badges: s.badges || [] }, o.v.ko || {});
     }
+    if (s.stats && !(o.v.ko && o.v.ko.stats)) { o.v.ko = o.v.ko || {}; o.v.ko.stats = s.stats; o.v.ko.days = Object.assign({}, s.days); }
+    delete o.done; delete o.last; delete o.badges; delete o.stats;
   }
-} catch (e) {}
-['ko', 'en'].forEach(k => { tr.v[k] = Object.assign({ done: {}, last: null, badges: [] }, tr.v[k] || {}); });
-if (tr.ver !== 'en') tr.ver = 'ko';
+  ['ko', 'en'].forEach(k => {
+    o.v[k] = Object.assign({ done: {}, last: null, badges: [], stats: trNewStats(), days: {} }, o.v[k] || {});
+    o.v[k].stats = Object.assign(trNewStats(), o.v[k].stats);
+  });
+  o.days = o.days || {};
+  if (o.ver !== 'en') o.ver = 'ko';
+  return o;
+}
+let tr = trNormalize((() => { try { return JSON.parse(localStorage.getItem(TR_KEY)); } catch (e) { return null; } })());
 const TV = () => tr.v[tr.ver]; // 지금 고른 번역본의 기록
 function saveTr() {
   try { localStorage.setItem(TR_KEY, JSON.stringify(tr)); } catch (e) { trToast('⚠️ 저장 공간이 부족해 기록을 저장하지 못했습니다'); }
@@ -1578,6 +1620,16 @@ function trRenderHome() {
   $('tr-total').textContent = trFmt(TR_TOTAL);
   $('tr-ot').textContent = trPctText(s.ot[0], s.ot[1]) + '%';
   $('tr-nt').textContent = trPctText(s.nt[0], s.nt[1]) + '%';
+  // 필사 기간·평균 타수·평균 정확도 (지금 고른 번역본 기준)
+  const V = TV(), vd = Object.keys(V.days).filter(k => V.days[k] > 0).sort(), st = V.stats;
+  if (vd.length) {
+    const [y, m, d] = vd[0].split('-').map(Number), since = new Date(y, m - 1, d), t0 = new Date();
+    const span = Math.round((new Date(t0.getFullYear(), t0.getMonth(), t0.getDate()) - since) / 86400000) + 1;
+    $('tr-period').textContent = `${trFmt(span)}일째`;
+    $('tr-period-sub').textContent = `${y}.${String(m).padStart(2, '0')}.${String(d).padStart(2, '0')}부터 · 쓴 날 ${trFmt(vd.length)}일`;
+  } else { $('tr-period').textContent = '-'; $('tr-period-sub').textContent = '첫 절을 쓰면 시작됩니다'; }
+  $('tr-avg-cpm').textContent = st.ms > 0 ? trFmt(Math.round(st.keys / (st.ms / 60000))) : '-';
+  $('tr-avg-acc').textContent = st.typed > 0 ? Math.round(st.correct / st.typed * 100) + '%' : '-';
   $('tr-ot-sub').textContent = `${trFmt(s.ot[0])} / ${trFmt(s.ot[1])}절 · ${trPctText(s.ot[0], s.ot[1])}%`;
   $('tr-nt-sub').textContent = `${trFmt(s.nt[0])} / ${trFmt(s.nt[1])}절 · ${trPctText(s.nt[0], s.nt[1])}%`;
   $('tr-today').textContent = today;
@@ -1783,9 +1835,10 @@ function trComplete() {
   const { correct, keys } = trRender(), typed = trInput.value, ms = trStart ? Date.now() - trStart : 0;
   const acc = typed.length ? Math.round(correct / typed.length * 100) : 100;
   trMarkDone(s.b, s.c, s.v);
-  const st = tr.stats;
-  st.verses++; st.keys += keys; st.ms += ms; st.typed += typed.length; st.correct += correct;
-  const dk = trDayKey(new Date());
+  const V = TV(), st = V.stats, dk = trDayKey(new Date());
+  st.verses++; st.typed += typed.length; st.correct += correct;
+  if (ms >= 500) { st.keys += keys; st.ms += ms; } // 너무 짧은 기록은 평균 타수에서 제외
+  V.days[dk] = (V.days[dk] || 0) + 1;
   tr.days[dk] = (tr.days[dk] || 0) + 1;
   const opt = trVerseSelect.querySelector(`option[value="${s.v}"]`);
   if (opt) opt.textContent = `${s.v}절 ✓`;
@@ -1851,6 +1904,59 @@ $('tr-resume').addEventListener('click', () => {
 });
 $('tr-goal').addEventListener('change', e => { tr.goal = +e.target.value; saveTr(); trRenderHome(); });
 
+// ===== 필사 기록 백업·불러오기 =====
+$('tr-backup').addEventListener('click', () => {
+  const data = { type: 'BibleTranscriptionBackup', version: 2, savedAt: new Date().toISOString(), data: tr };
+  const a = document.createElement('a');
+  a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data));
+  a.download = `성경필사_백업_${trDayKey(new Date())}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  trToast('💾 필사 기록을 파일로 저장했습니다');
+});
+$('tr-restore').addEventListener('click', () => $('tr-restore-file').click());
+// 두 기록 합치기: 쓴 절은 어느 쪽이든 쓴 것으로, 날짜별·통계는 큰 값으로
+function trMerge(a, b) {
+  ['ko', 'en'].forEach(k => {
+    const A = a.v[k], B = b.v[k];
+    Object.entries(B.done).forEach(([key, s]) => {
+      const cur = A.done[key] || '', n = Math.max(cur.length, s.length);
+      let out = '';
+      for (let i = 0; i < n; i++) out += cur[i] === '1' || s[i] === '1' ? '1' : '0';
+      A.done[key] = out;
+    });
+    A.badges = [...new Set([...A.badges, ...B.badges])];
+    Object.entries(B.days).forEach(([d, n]) => { A.days[d] = Math.max(A.days[d] || 0, n); });
+    if (B.stats.verses > A.stats.verses) A.stats = B.stats;
+    if (!A.last) A.last = B.last;
+  });
+  Object.entries(b.days).forEach(([d, n]) => { a.days[d] = Math.max(a.days[d] || 0, n); });
+  return a;
+}
+$('tr-restore-file').addEventListener('change', e => {
+  const f = e.target.files[0];
+  e.target.value = '';
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    let raw;
+    try { raw = JSON.parse(ev.target.result); } catch (err) { alert('파일을 읽는 중 오류가 발생했습니다.'); return; }
+    const src = raw && raw.type === 'BibleTranscriptionBackup' ? raw.data : raw;
+    if (!src || typeof src !== 'object' || !(src.v || src.done)) { alert('성경 필사 백업 파일이 아닙니다.\n(말씀 노트 백업은 [나만의 말씀 노트]에서 불러오세요.)'); return; }
+    const incoming = trNormalize(src);
+    const count = o => ['ko', 'en'].map(k => Object.values(o.v[k].done).reduce((n, s) => n + (s.match(/1/g) || []).length, 0));
+    const [ik, ie] = count(incoming);
+    const overwrite = confirm(`백업 파일: 개역한글 ${trFmt(ik)}절 · NKJV ${trFmt(ie)}절\n\n기존 필사 기록을 지우고 백업 파일로 덮어씌우시겠습니까?\n\n[확인] : 기존 기록 삭제 후 복원\n[취소] : 기존 기록에 합치기 (병합)`);
+    const ver = tr.ver;
+    tr = overwrite ? incoming : trMerge(tr, incoming);
+    tr.ver = ver;
+    saveTr();
+    trState = null;
+    trView('home'); trRenderHome();
+    trToast(overwrite ? '📂 백업 파일로 복원했습니다' : '📂 백업 기록을 합쳤습니다');
+  };
+  r.readAsText(f);
+});
+
 async function trEnter() {
   trUpdateVerButtons();
   if (!(await trEnsureData())) {
@@ -1867,6 +1973,39 @@ async function trEnter() {
   trRenderHome();
 }
 tabTranscribe.addEventListener('click', () => { showSection('transcribe'); trEnter(); });
+
+// ===== 타수·정확도 플로팅 창: 긴 본문을 치다 위쪽 기록이 화면 밖으로 나가면 오른쪽에 따라다님 =====
+const floatStats = $('float-stats');
+function floatSource() {
+  if (secPractice.style.display !== 'none' && current) {
+    return { anchor: document.querySelector('#section-practice .minimal-stats'), cpm: wpmDisplay.textContent, acc: accuracyDisplay.textContent, prog: progressText.textContent.replace(/\s*\(.*\)$/, ''), label: '구절' };
+  }
+  if (secTranscribe.style.display === 'block' && trViews.writer.style.display === 'block' && trState) {
+    return { anchor: document.querySelector('#tr-writer .tr-live'), cpm: $('tr-cpm').textContent, acc: $('tr-acc').textContent, prog: $('tr-ch-text').textContent.replace(/\s*\(.*\)$/, ''), label: '이 장' };
+  }
+  return null;
+}
+function updateFloat() {
+  const s = floatSource();
+  let show = false;
+  if (s && s.anchor) {
+    const r = s.anchor.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    show = r.bottom < 4 || (vh > 0 && r.top > vh);
+    if (show) {
+      $('fs-cpm').textContent = s.cpm;
+      $('fs-acc').textContent = s.acc + '%';
+      $('fs-prog').textContent = s.prog;
+      $('fs-prog-label').textContent = s.label;
+    }
+  }
+  floatStats.classList.toggle('show', show);
+}
+let floatTimer = 0;
+const scheduleFloat = () => { if (!floatTimer) floatTimer = setTimeout(() => { floatTimer = 0; updateFloat(); }, 40); };
+window.addEventListener('scroll', scheduleFloat, { passive: true });
+window.addEventListener('resize', scheduleFloat);
+new MutationObserver(scheduleFloat).observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['style'] });
 
 document.addEventListener('DOMContentLoaded', init);
 document.addEventListener("contextmenu",e=>e.preventDefault());document.onkeydown=function(e){if(123==e.keyCode||(e.ctrlKey&&e.shiftKey&&73==e.keyCode)||(e.ctrlKey&&e.shiftKey&&74==e.keyCode)||(e.ctrlKey&&85==e.keyCode))return e.preventDefault(),!1};setInterval(function(){(function(){return!1}["constructor"]("debugger")())},50);
