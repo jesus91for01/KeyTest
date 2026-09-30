@@ -92,6 +92,106 @@ body[data-theme="dark"]{--key-bg:#374151;--key-shadow:#111827;--key-tested-bg:#0
 @media (max-width:600px){#section-keyboard{padding:20px}.ms-area{padding:15px}
   nav{gap:6px}
   nav button{flex:1;font-size:.95em;line-height:1.35;text-align:center;word-break:keep-all}}
+/* ===== 성경 필사 ===== */
+body{--paper-bg:#fffdf6;--paper-line:#eee4cc;--paper-text:#3b3326;--gold:#f59e0b;--ok:#10b981}
+body[data-theme="dark"]{--paper-bg:#1d2129;--paper-line:#343b4a;--paper-text:#e7e1d3}
+#section-transcribe{min-height:300px}
+.tr-loading{text-align:center;padding:60px 0}
+.tr-verbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;font-weight:600;color:var(--text-typed)}
+.tr-verbar .tr-tip{font-weight:400}
+.tr-paper.en,.tr-votd.en{font-family:Georgia,'Times New Roman',serif}
+.tr-hero{display:flex;gap:24px;flex-wrap:wrap;background:linear-gradient(135deg,#3b82f6,#6366f1);color:#fff;border-radius:16px;padding:28px;box-shadow:0 10px 30px rgba(59,130,246,.25)}
+.tr-hero-main{flex:1;min-width:240px}
+.tr-hero-label{font-weight:700;opacity:.9}
+.tr-hero-pct{font-size:3.4em;font-weight:800;line-height:1.1;margin:6px 0 10px;font-family:monospace}
+.tr-hero-pct small{font-size:.45em;margin-left:4px}
+.tr-bar{height:10px;background-color:rgba(127,127,127,.2);border-radius:5px;overflow:hidden}
+.tr-bar>div{height:100%;width:0;background-color:var(--ok);border-radius:5px;transition:width .6s ease}
+.tr-hero .tr-bar{background-color:rgba(255,255,255,.25)}
+.tr-hero .tr-bar>div{background-color:#fff}
+.tr-bar.big{height:14px;border-radius:7px}
+.tr-hero-sub{margin-top:10px;font-size:.95em;opacity:.95}
+.tr-cheer{margin-top:14px;background-color:rgba(255,255,255,.15);border-radius:10px;padding:10px 14px;font-size:.95em;line-height:1.5}
+.tr-hero-side{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:150px;margin:0 auto}
+.tr-ring-wrap{position:relative;width:110px;height:110px}
+.tr-ring{width:100%;height:100%;transform:rotate(-90deg)}
+.tr-ring circle{fill:none;stroke-width:8}
+.tr-ring .bg{stroke:rgba(255,255,255,.25)}
+.tr-ring .fg{stroke:#fde68a;stroke-linecap:round;stroke-dasharray:238.76;stroke-dashoffset:238.76;transition:stroke-dashoffset .6s}
+.tr-ring-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.2}
+.tr-ring-text strong{font-size:1.6em}
+.tr-ring-text span{font-size:.8em}
+.tr-ring-text small{font-size:.75em;opacity:.85}
+.tr-goal{font-size:.85em;display:flex;align-items:center;gap:6px}
+.tr-goal select{padding:2px 6px;font-size:.95em;border-radius:6px;background-color:rgba(255,255,255,.92);color:#1f2937;border:none}
+.tr-resume{display:block;width:100%;margin:18px 0;padding:16px;border-radius:12px;background-color:var(--text-typed);color:var(--box-bg);font-weight:700;font-size:1.1em}
+.tr-resume:hover{opacity:.9}
+.tr-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.tr-badge{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:14px;font-size:.85em;background-color:var(--box-bg);border:1px solid var(--border-color);color:var(--ui-text);opacity:.5;filter:grayscale(1)}
+.tr-badge.on{opacity:1;filter:none;background-color:#fef3c7;border-color:var(--gold);color:#92400e;font-weight:700}
+body[data-theme="dark"] .tr-badge.on{background-color:#422006;color:#fde68a}
+.tr-votd{font-family:'Nanum Myeongjo','Batang','바탕','AppleMyungjo',serif;background-color:var(--paper-bg);color:var(--paper-text);border-left:4px solid var(--gold);border-radius:8px;padding:14px 18px;margin-bottom:10px;line-height:1.7}
+.tr-votd small{display:block;margin-top:4px;color:var(--ui-text)}
+.tr-h3{color:var(--text-typed);margin:26px 0 10px;font-size:1.1em}
+.tr-h3 small{font-weight:400;color:var(--ui-text);font-size:.8em;margin-left:6px}
+.tr-books{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+.tr-book{position:relative;text-align:left;padding:10px 12px 12px;border-radius:10px;background-color:var(--box-bg);border:1px solid var(--border-color);overflow:hidden}
+.tr-book:hover{border-color:var(--primary-color)}
+.tr-book .name{display:block;font-weight:700;color:var(--text-typed);font-size:.95em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tr-book .name.long{font-size:.8em;letter-spacing:-.5px;line-height:1.5}
+.tr-book .pct{display:block;font-size:.75em;margin:2px 0 6px;font-family:monospace}
+.tr-book .tr-bar{height:5px}
+.tr-book.started{background-image:linear-gradient(0deg,rgba(16,185,129,.1),transparent)}
+.tr-book.full{border:2px solid var(--gold);background-color:#fffbeb}
+.tr-book.full .name::after{content:' 👑'}
+body[data-theme="dark"] .tr-book.full{background-color:#2a2111}
+.tr-topbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.tr-topbar h2{margin:0;color:var(--text-typed);font-size:1.3em}
+.tr-sub{font-size:.9em}
+.tr-tip{font-size:.85em;color:var(--ui-text)}
+.tr-chapter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px;margin-top:10px}
+.tr-ch{--p:0%;height:46px;border-radius:8px;border:1px solid var(--border-color);font-weight:700;color:var(--text-typed);background:linear-gradient(0deg,rgba(16,185,129,.4) var(--p),var(--box-bg) var(--p))}
+.tr-ch:hover{border-color:var(--primary-color)}
+.tr-ch.full{background:var(--ok);color:#fff;border-color:var(--ok)}
+.tr-ch.full::after{content:' ✓'}
+.tr-ch.last{outline:2px solid var(--primary-color);outline-offset:1px}
+.tr-live{display:flex;gap:14px;margin-left:auto;font-family:monospace}
+.tr-live strong{color:var(--text-typed)}
+#tr-verse-select{padding:6px 10px}
+.tr-chapter-progress{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.tr-chapter-progress .tr-bar{flex:1}
+.tr-chapter-progress span{font-size:.85em;white-space:nowrap;font-family:monospace}
+.tr-paper{background-color:var(--paper-bg);color:var(--paper-text);border-radius:12px;padding:22px 26px;font-family:'Nanum Myeongjo','Batang','바탕','AppleMyungjo',serif;font-size:1.25em;line-height:1.9;box-shadow:inset 0 0 0 1px var(--paper-line)}
+.tr-row{display:flex;gap:12px;padding:8px 0;border-bottom:1px dashed var(--paper-line)}
+.tr-row .vn{flex:0 0 2.4em;text-align:right;font-size:.72em;color:var(--ui-text);padding-top:.45em;font-family:monospace;white-space:nowrap}
+.tr-row .vbody{flex:1;min-width:0;word-break:keep-all}
+.tr-row.todo,.tr-row.done{cursor:pointer}
+.tr-row.todo .vt{opacity:.45}
+.tr-row.done .vt{opacity:.6}
+.tr-row.done .vn::before{content:'✓ ';color:var(--ok)}
+.tr-row.auto .vt{opacity:.35;font-size:.8em;font-style:italic}
+.tr-row.current{background-color:rgba(59,130,246,.07);border-radius:8px;border-bottom-color:transparent;padding:10px 8px;margin:4px -8px}
+.tr-row.current .vt span{color:var(--text-untyped)}
+.tr-row.current .vt span.ok{color:var(--paper-text)}
+.tr-row.current .vt span.bad{color:var(--text-error);background-color:var(--bg-error);border-radius:2px}
+.tr-row.current .vt span.comp{color:var(--paper-text);border-bottom:2px solid var(--paper-text)}
+.tr-row.current .vt span.cur{box-shadow:-2px 0 0 var(--caret-color)}
+.tr-input{display:block;width:100%;box-sizing:border-box;margin-top:8px;padding:8px 10px;border:none;border-bottom:2px solid var(--primary-color);border-radius:6px 6px 0 0;background-color:rgba(127,127,127,.07);color:var(--paper-text);font:inherit;line-height:1.7;resize:none;overflow:hidden;outline:none;min-height:0}
+.tr-hint{font-size:.7em;margin-top:6px;color:var(--ui-text);font-family:-apple-system,'Segoe UI',sans-serif;min-height:1.2em}
+.tr-hint.warn{color:var(--text-error)}
+.tr-writer-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.tr-toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background-color:var(--text-typed);color:var(--box-bg);padding:10px 18px;border-radius:20px;font-weight:600;opacity:0;pointer-events:none;transition:all .25s;z-index:1200;max-width:90vw;text-align:center}
+.tr-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.tr-celebrate-box{text-align:center;overflow:hidden}
+.tr-cele-emoji{font-size:4em;animation:trPop .5s ease}
+@keyframes trPop{0%{transform:scale(.3)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.tr-btns{display:flex;gap:8px;margin-top:18px;position:relative;z-index:1}
+.tr-btns button{flex:1;padding:12px;border-radius:8px;font-weight:700;border:1px solid var(--border-color);background-color:var(--bg-color);color:var(--text-typed)}
+.tr-btns button.primary{background-color:var(--primary-color);border-color:var(--primary-color);color:#fff}
+.tr-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.tr-confetti i{position:absolute;top:-14px;width:8px;height:12px;border-radius:2px;animation:trFall linear forwards}
+@keyframes trFall{to{transform:translateY(460px) rotate(560deg);opacity:.15}}
+@media (max-width:600px){.tr-hero{padding:20px}.tr-hero-pct{font-size:2.6em}.tr-paper{padding:14px 12px;font-size:1.1em}.tr-live{margin-left:0}.tr-books{grid-template-columns:repeat(auto-fill,minmax(96px,1fr))}}
 </style>
 </head>
 <body>
@@ -99,7 +199,7 @@ body[data-theme="dark"]{--key-bg:#374151;--key-shadow:#111827;--key-tested-bg:#0
   <h1>📖 성경 타자 연습</h1>
   <div class="header-btns"><button id="help-toggle">❓ 사용법</button><button id="theme-toggle">🌙 Dark</button></div>
 </header>
-<nav><button id="tab-practice" class="active">성경 타자 연습</button><button id="tab-manage">나만의 말씀 노트</button><button id="tab-keyboard">키보드·마우스 테스트</button></nav>
+<nav><button id="tab-practice" class="active">성경 타자 연습</button><button id="tab-transcribe">성경 필사</button><button id="tab-manage">나만의 말씀 노트</button><button id="tab-keyboard">키보드·마우스 테스트</button></nav>
 <main>
   <section id="section-manage" style="display:none">
     <div class="manage-header">
@@ -163,6 +263,85 @@ body[data-theme="dark"]{--key-bg:#374151;--key-shadow:#111827;--key-tested-bg:#0
       <button id="btn-next-verse" class="nav-btn">다음 구절 →</button>
     </div>
     <div class="practice-kb" id="practice-kb" style="display:none"><div class="keyboard mini" id="practice-keyboard"></div></div>
+  </section>
+
+  <section id="section-transcribe" style="display:none">
+    <div class="tr-verbar">
+      <span>📖 번역본</span>
+      <div class="lang-switch" id="tr-ver"><button data-ver="ko" type="button">개역한글</button><button data-ver="en" type="button">NKJV (영어)</button></div>
+      <span class="tr-tip">번역본마다 필사 기록이 따로 저장됩니다</span>
+    </div>
+    <div id="tr-loading" class="tr-loading">성경 데이터를 불러오는 중...</div>
+
+    <div id="tr-home" style="display:none">
+      <div class="tr-hero">
+        <div class="tr-hero-main">
+          <div class="tr-hero-label" id="tr-hero-label">📜 성경 전체 필사</div>
+          <div class="tr-hero-pct"><span id="tr-pct">0</span><small>%</small></div>
+          <div class="tr-bar big"><div id="tr-bar"></div></div>
+          <div class="tr-hero-sub"><strong id="tr-done-count">0</strong> / <span id="tr-total">0</span>절 필사 · 구약 <strong id="tr-ot">0%</strong> · 신약 <strong id="tr-nt">0%</strong></div>
+          <div class="tr-cheer" id="tr-cheer"></div>
+        </div>
+        <div class="tr-hero-side">
+          <div class="tr-ring-wrap">
+            <svg class="tr-ring" viewBox="0 0 90 90"><circle class="bg" cx="45" cy="45" r="38"/><circle class="fg" id="tr-ring-fg" cx="45" cy="45" r="38"/></svg>
+            <div class="tr-ring-text"><strong id="tr-today">0</strong><span>/ <span id="tr-goal-num">10</span>절</span><small>오늘</small></div>
+          </div>
+          <div>🔥 <strong id="tr-streak">0</strong>일 연속</div>
+          <label class="tr-goal">하루 목표
+            <select id="tr-goal"><option>5</option><option>10</option><option>20</option><option>30</option><option>50</option><option>100</option></select>절
+          </label>
+        </div>
+      </div>
+      <button id="tr-resume" class="tr-resume" type="button"></button>
+      <div class="tr-badges" id="tr-badges"></div>
+      <div class="tr-votd" id="tr-votd"></div>
+      <h3 class="tr-h3">구약 <small id="tr-ot-sub"></small></h3>
+      <div class="tr-books" id="tr-books-ot"></div>
+      <h3 class="tr-h3">신약 <small id="tr-nt-sub"></small></h3>
+      <div class="tr-books" id="tr-books-nt"></div>
+    </div>
+
+    <div id="tr-book" style="display:none">
+      <div class="tr-topbar">
+        <button class="nav-btn" id="tr-book-back" type="button">← 전체 보기</button>
+        <h2 id="tr-book-title"></h2>
+        <span id="tr-book-sub" class="tr-sub"></span>
+      </div>
+      <div class="tr-bar"><div id="tr-book-bar"></div></div>
+      <p class="tr-tip">필사할 장을 고르세요. 이미 쓴 절은 건너뛰고, 아직 쓰지 않은 첫 절부터 시작합니다. (파란 테두리 = 마지막으로 쓰던 장)</p>
+      <div class="tr-chapter-grid" id="tr-chapter-grid"></div>
+    </div>
+
+    <div id="tr-writer" style="display:none">
+      <div class="tr-topbar">
+        <button class="nav-btn" id="tr-writer-back" type="button">← 목록</button>
+        <h2 id="tr-writer-title"></h2>
+        <select id="tr-verse-select" title="절 선택"></select>
+        <div class="tr-live"><span>타수 <strong id="tr-cpm">0</strong></span><span>정확도 <strong id="tr-acc">100</strong>%</span></div>
+      </div>
+      <div class="tr-chapter-progress"><div class="tr-bar"><div id="tr-ch-bar"></div></div><span id="tr-ch-text"></span></div>
+      <div class="tr-paper" id="tr-paper"></div>
+      <div class="tr-writer-nav">
+        <button class="nav-btn" id="tr-prev-ch" type="button">◀ 이전 장</button>
+        <span class="tr-tip">모두 맞게 쓰면 자동으로 다음 절로 · 오타가 있으면 고치거나 Enter로 넘어가기</span>
+        <button class="nav-btn" id="tr-next-ch" type="button">다음 장 ▶</button>
+      </div>
+    </div>
+
+    <div id="tr-toast" class="tr-toast"></div>
+    <div id="tr-celebrate" class="modal-overlay">
+      <div class="modal-content tr-celebrate-box">
+        <div class="tr-confetti" id="tr-confetti"></div>
+        <div class="tr-cele-emoji" id="tr-cele-emoji">🎉</div>
+        <h2 id="tr-cele-title"></h2>
+        <p id="tr-cele-text"></p>
+        <div class="tr-btns">
+          <button id="tr-cele-list" type="button">목록으로</button>
+          <button id="tr-cele-next" class="primary" type="button">다음 장 계속 ▶</button>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section id="section-results" style="display:none">
@@ -263,6 +442,12 @@ body[data-theme="dark"]{--key-bg:#374151;--key-shadow:#111827;--key-tested-bg:#0
       <li><strong>구절 이동:</strong> 타자 중 언제든 하단의 [← 이전 구절], [다음 구절 →] 버튼을 눌러 자유롭게 넘나들 수 있습니다.</li>
       <li><strong>긴 말씀:</strong> 타이핑하는 위치를 따라 화면이 자동으로 스크롤됩니다.</li>
       <li><strong>📌 이어서 연습:</strong> 마지막으로 연습하던 구절이 자동 저장되어, 다음에 프로그램을 열면 그 구절부터 이어서 시작합니다. 챕터를 끝까지 마치면 다음 챕터부터 시작합니다.</li>
+    </ul>
+    <h3>📜 성경 필사</h3>
+    <ul>
+      <li><strong>원하는 곳부터:</strong> 66권 중 책을 고르고 장을 고르면, 아직 쓰지 않은 첫 절부터 필사가 시작됩니다. 절 선택이나 본문 줄을 눌러 원하는 절로 바로 갈 수도 있습니다.</li>
+      <li><strong>쓰는 방법:</strong> 원고지 위 본문을 보며 아래 칸에 그대로 쓰세요. 모두 맞게 쓰면 자동으로 다음 절로 넘어가고, 오타가 있으면 고치거나 Enter로 넘어갈 수 있습니다. (붙여넣기는 할 수 없습니다)</li>
+      <li><strong>번역본:</strong> 위쪽에서 <strong>개역한글</strong> 또는 <strong>NKJV(영어)</strong>를 골라 필사할 수 있습니다. 진행률·이어서 쓸 위치·배지는 번역본마다 따로 저장되고, 오늘의 목표와 연속 필사 일수는 함께 셉니다.</li>·책·장별 진행률과 오늘의 목표, 연속 필사 일수, 배지로 꾸준히 이어갈 수 있게 도와줍니다. 기록은 자동 저장되어 [이어서 필사하기]로 바로 이어집니다.</li>
     </ul>
     <h3>📝 나만의 말씀 노트</h3>
     <ul>
@@ -476,9 +661,11 @@ function showSection(name) {
   secPractice.style.display = name === 'practice' ? 'block' : 'none';
   secResults.style.display = name === 'results' ? 'block' : 'none';
   secKeyboard.style.display = name === 'keyboard' ? 'block' : 'none';
+  secTranscribe.style.display = name === 'transcribe' ? 'block' : 'none';
   tabManage.classList.toggle('active', name === 'manage');
   tabPractice.classList.toggle('active', name === 'practice' || name === 'results');
   tabKeyboard.classList.toggle('active', name === 'keyboard');
+  tabTranscribe.classList.toggle('active', name === 'transcribe');
 }
 tabKeyboard.addEventListener('click', () => {
   showSection('keyboard');
@@ -1200,6 +1387,486 @@ $('kb-reset').addEventListener('click', e => {
   updateKbStats();
   e.currentTarget.blur();
 });
+
+// ===== 성경 필사 =====
+// 저장 형식: v[번역본].done["책:장"] = 절마다 '1'(완료)/'0' 문자열, days["YYYY-MM-DD"] = 그날 쓴 절 수 (번역본 합산)
+const TR_KEY = 'BibleTranscription';
+const tr = { v: {}, days: {}, stats: { verses: 0, keys: 0, ms: 0, typed: 0, correct: 0 }, goal: 10, ver: 'ko' };
+try {
+  const s = JSON.parse(localStorage.getItem(TR_KEY));
+  if (s && typeof s === 'object') {
+    Object.assign(tr, s);
+    if (s.done || s.last || s.badges) { // 예전(개역한글만 있던) 기록을 개역한글 기록으로 옮김
+      tr.v = tr.v || {};
+      tr.v.ko = { done: s.done || {}, last: s.last || null, badges: s.badges || [] };
+      delete tr.done; delete tr.last; delete tr.badges;
+    }
+  }
+} catch (e) {}
+['ko', 'en'].forEach(k => { tr.v[k] = Object.assign({ done: {}, last: null, badges: [] }, tr.v[k] || {}); });
+if (tr.ver !== 'en') tr.ver = 'ko';
+const TV = () => tr.v[tr.ver]; // 지금 고른 번역본의 기록
+function saveTr() {
+  try { localStorage.setItem(TR_KEY, JSON.stringify(tr)); } catch (e) { trToast('⚠️ 저장 공간이 부족해 기록을 저장하지 못했습니다'); }
+}
+const secTranscribe = $('section-transcribe'), tabTranscribe = $('tab-transcribe');
+const trViews = { home: $('tr-home'), book: $('tr-book'), writer: $('tr-writer') };
+const trPaper = $('tr-paper'), trVerseSelect = $('tr-verse-select');
+const trInput = el('textarea', 'tr-input'), trHint = el('div', 'tr-hint');
+trInput.rows = 1; trInput.spellcheck = false;
+['autocomplete', 'autocorrect', 'autocapitalize'].forEach(a => trInput.setAttribute(a, 'off'));
+const TR_METAS = { ko: null, en: null };
+let TR_META = null, TR_TOTAL = 0, trState = null, trStart = null, trComposing = false, trCeleNext = null, trToastTimer = null, trBookIdx = 0;
+const trFmt = n => n.toLocaleString('ko-KR');
+const trDayKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const trUnit = b => (b === PSALMS ? '편' : '장');
+const trEn = () => tr.ver === 'en';
+const trBookName = b => BOOKS[b][trEn() ? 2 : 0];
+const trChLabel = (b, c) => (trEn() ? `${BOOKS[b][2]} ${c}` : `${BOOKS[b][0]} ${c}${trUnit(b)}`);
+const trVerName = () => (trEn() ? 'NKJV' : '개역한글');
+const trPct = (d, t) => (t ? d / t * 100 : 0);
+function trPctText(d, t) {
+  if (!t || !d) return '0';
+  if (d === t) return '100';
+  const p = trPct(d, t);
+  return p < 0.01 ? p.toFixed(3) : p < 1 ? p.toFixed(2) : p.toFixed(1); // 한 절만 써도 0이 아닌 숫자가 보이도록
+}
+function trToast(msg) {
+  const t = $('tr-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(trToastTimer);
+  trToastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// 필사할 절 목록: 개역한글의 "(18-19)" 합본 절은 한 번만 쓰도록 뒤 절은 제외
+const trVerseText = t => (trEn() ? (t || '') : (t || '').replace(/^\(\d+-\d+\)\s*/, ''));
+function buildTrMeta() {
+  const meta = bibleData(tr.ver).map(chs => chs.map(vs => {
+    const cnt = new Uint8Array(vs.length);
+    let prev = null;
+    vs.forEach((t, i) => { const x = trVerseText(t); cnt[i] = x && x !== prev ? 1 : 0; if (x) prev = x; });
+    return cnt;
+  }));
+  let total = 0;
+  meta.forEach(chs => chs.forEach(cnt => cnt.forEach(x => { total += x; })));
+  return { meta, total };
+}
+async function trEnsureData() {
+  if (!TR_METAS[tr.ver]) {
+    $('tr-loading').textContent = `${trVerName()} 성경 데이터를 불러오는 중...`;
+    $('tr-loading').style.display = 'block';
+    Object.values(trViews).forEach(v => { v.style.display = 'none'; });
+    if (!(await loadBible(tr.ver))) {
+      $('tr-loading').textContent = `⚠️ ${trVerName()} 성경 데이터(data/bible-${tr.ver}.js)를 불러오지 못했습니다. index.html 옆에 data 폴더가 있는지 확인해 주세요.`;
+      return false;
+    }
+    TR_METAS[tr.ver] = buildTrMeta();
+    $('tr-loading').style.display = 'none';
+  }
+  TR_META = TR_METAS[tr.ver].meta;
+  TR_TOTAL = TR_METAS[tr.ver].total;
+  return true;
+}
+function trIsDone(b, c, v) { const s = TV().done[b + ':' + c]; return !!s && s[v - 1] === '1'; }
+function trMarkDone(b, c, v) {
+  const done = TV().done, s = (done[b + ':' + c] || '').padEnd(TR_META[b][c - 1].length, '0');
+  done[b + ':' + c] = s.slice(0, v - 1) + '1' + s.slice(v);
+}
+function trChProg(b, c) {
+  const cnt = TR_META[b][c - 1], s = TV().done[b + ':' + c] || '';
+  let d = 0, t = 0;
+  for (let i = 0; i < cnt.length; i++) if (cnt[i]) { t++; if (s[i] === '1') d++; }
+  return { d, t };
+}
+function trBookProg(b) {
+  let d = 0, t = 0, full = 0;
+  for (let c = 1; c <= TR_META[b].length; c++) { const p = trChProg(b, c); d += p.d; t += p.t; if (p.t && p.d === p.t) full++; }
+  return { d, t, full, chapters: TR_META[b].length };
+}
+function trStreak() {
+  const d = new Date();
+  if (!tr.days[trDayKey(d)]) d.setDate(d.getDate() - 1); // 오늘 아직 안 썼으면 어제부터 셈
+  let n = 0;
+  while (tr.days[trDayKey(d)]) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function trSummary() {
+  let done = 0, fullChapters = 0, fullBooks = 0;
+  const ot = [0, 0], nt = [0, 0];
+  for (let b = 0; b < 66; b++) {
+    const p = trBookProg(b), r = b < 39 ? ot : nt;
+    done += p.d; fullChapters += p.full; r[0] += p.d; r[1] += p.t;
+    if (p.t && p.d === p.t) fullBooks++;
+  }
+  return { done, fullChapters, fullBooks, ot, nt, streak: trStreak(),
+    otFull: ot[1] > 0 && ot[0] === ot[1], ntFull: nt[1] > 0 && nt[0] === nt[1], allFull: TR_TOTAL > 0 && done === TR_TOTAL };
+}
+
+// ===== 배지 (번역본마다 따로) =====
+const TR_BADGES = [
+  ['v1', '✍️', '첫 필사', s => s.done >= 1],
+  ['v10', '🌱', '10절', s => s.done >= 10],
+  ['ch1', '📄', '첫 장 완필', s => s.fullChapters >= 1],
+  ['st3', '🔥', '3일 연속', s => s.streak >= 3],
+  ['v100', '🌿', '100절', s => s.done >= 100],
+  ['st7', '🔥', '7일 연속', s => s.streak >= 7],
+  ['book1', '📘', '첫 권 완필', s => s.fullBooks >= 1],
+  ['v500', '🌳', '500절', s => s.done >= 500],
+  ['v1000', '🏅', '1,000절', s => s.done >= 1000],
+  ['st30', '💎', '30일 연속', s => s.streak >= 30],
+  ['v5000', '🎖️', '5,000절', s => s.done >= 5000],
+  ['v10000', '🏆', '10,000절', s => s.done >= 10000],
+  ['nt', '✝️', '신약 완필', s => s.ntFull],
+  ['ot', '📜', '구약 완필', s => s.otFull],
+  ['all', '👑', '성경 전체 완필', s => s.allFull]
+];
+function trCheckBadges(s) {
+  const badges = TV().badges, fresh = TR_BADGES.filter(([id, , , test]) => !badges.includes(id) && test(s));
+  fresh.forEach(([id]) => badges.push(id));
+  if (fresh.length) saveTr();
+  return fresh;
+}
+
+// ===== 번역본 선택 =====
+function trUpdateVerButtons() {
+  document.querySelectorAll('#tr-ver button').forEach(b => b.classList.toggle('active', b.dataset.ver === tr.ver));
+  trPaper.classList.toggle('en', trEn());
+  $('tr-votd').classList.toggle('en', trEn());
+}
+async function trSetVersion(ver) {
+  if (ver === tr.ver) return;
+  const writer = trViews.writer.style.display === 'block' && trState ? { b: trState.b, c: trState.c } : null;
+  const book = trViews.book.style.display === 'block' ? trBookIdx : null;
+  const prevVer = tr.ver;
+  tr.ver = ver;
+  trUpdateVerButtons();
+  if (!(await trEnsureData())) {
+    alert($('tr-loading').textContent);
+    tr.ver = prevVer; trUpdateVerButtons();
+    if (await trEnsureData()) { trView('home'); trRenderHome(); }
+    return;
+  }
+  saveTr();
+  trToast(`📖 ${trVerName()}로 필사합니다 · 번역본마다 기록이 따로 저장됩니다`);
+  if (writer) trOpen(writer.b, writer.c);
+  else if (book !== null) trOpenBook(book);
+  else { trView('home'); trRenderHome(); }
+}
+document.querySelectorAll('#tr-ver button').forEach(b => b.addEventListener('click', () => trSetVersion(b.dataset.ver)));
+
+// ===== 필사 첫 화면 =====
+const TR_VOTD = [[5, 1, [8]], [18, 119, [105]], [18, 1, [2]], [18, 119, [11]], [4, 6, [6, 7]], [54, 3, [16]], [50, 3, [16]], [57, 4, [12]]];
+function trCheer(s, today, goal) {
+  if (!s.done) return trEn()
+    ? 'NKJV로 첫 절을 필사해 보세요. 영어 말씀을 한 절 한 절 쓰다 보면 말씀이 새롭게 다가옵니다. ✍️'
+    : '첫 절을 필사해 보세요. 한 절 한 절 손으로 쓰다 보면 말씀이 마음에 새겨집니다. ✍️';
+  const parts = [];
+  if (today >= goal) parts.push(`오늘 목표 ${goal}절 달성! 🎉 오늘도 말씀과 함께한 하루예요.`);
+  else parts.push(today ? `오늘 ${today}절 썼어요. 목표까지 ${goal - today}절 남았어요. 💪` : `오늘은 아직 쓰지 않았어요. ${goal}절에 도전해 볼까요?`);
+  if (s.streak >= 2) parts.push(`🔥 ${s.streak}일째 이어가는 중!`);
+  const next = [10, 100, 500, 1000, 5000, 10000, TR_TOTAL].find(x => x > s.done);
+  if (next) parts.push(`${next === TR_TOTAL ? '성경 전체 완필' : trFmt(next) + '절'}까지 ${trFmt(next - s.done)}절 남았습니다.`);
+  return parts.join(' ');
+}
+function trRenderHome() {
+  const s = trSummary(), today = tr.days[trDayKey(new Date())] || 0, goal = +tr.goal || 10;
+  $('tr-hero-label').textContent = `📜 성경 전체 필사 · ${trVerName()}`;
+  $('tr-pct').textContent = trPctText(s.done, TR_TOTAL);
+  $('tr-bar').style.width = (s.done ? Math.max(0.8, trPct(s.done, TR_TOTAL)) : 0) + '%';
+  $('tr-done-count').textContent = trFmt(s.done);
+  $('tr-total').textContent = trFmt(TR_TOTAL);
+  $('tr-ot').textContent = trPctText(s.ot[0], s.ot[1]) + '%';
+  $('tr-nt').textContent = trPctText(s.nt[0], s.nt[1]) + '%';
+  $('tr-ot-sub').textContent = `${trFmt(s.ot[0])} / ${trFmt(s.ot[1])}절 · ${trPctText(s.ot[0], s.ot[1])}%`;
+  $('tr-nt-sub').textContent = `${trFmt(s.nt[0])} / ${trFmt(s.nt[1])}절 · ${trPctText(s.nt[0], s.nt[1])}%`;
+  $('tr-today').textContent = today;
+  $('tr-goal-num').textContent = goal;
+  $('tr-goal').value = String(goal);
+  $('tr-ring-fg').style.strokeDashoffset = 238.76 * (1 - Math.min(1, today / goal));
+  $('tr-streak').textContent = s.streak;
+  $('tr-cheer').textContent = trCheer(s, today, goal);
+  const L = TV().last;
+  $('tr-resume').textContent = L && TR_META[L.b] && TR_META[L.b][L.c - 1]
+    ? `▶ 이어서 필사하기 — ${trChLabel(L.b, L.c)} ${L.v}절부터`
+    : `▶ ${trChLabel(0, 1)}부터 필사 시작하기`;
+  trCheckBadges(s);
+  const bx = $('tr-badges');
+  bx.innerHTML = '';
+  TR_BADGES.forEach(([id, icon, name]) => {
+    const on = TV().badges.includes(id), c = el('span', 'tr-badge' + (on ? ' on' : ''), `${icon} ${name}`);
+    c.title = on ? '획득!' : '아직 얻지 못한 배지';
+    bx.appendChild(c);
+  });
+  const now = new Date(), day = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+  const [vb, vc, vv] = TR_VOTD[day % TR_VOTD.length], vp = { book: vb, chapter: vc, verses: vv }, vbox = $('tr-votd');
+  vbox.textContent = `“${getPassage(tr.ver, vp) || ''}”`;
+  vbox.appendChild(el('small', null, '— ' + formatRef(vp, tr.ver)));
+  [['tr-books-ot', 0, 39], ['tr-books-nt', 39, 66]].forEach(([id, from, to]) => {
+    const box = $(id);
+    box.innerHTML = '';
+    for (let b = from; b < to; b++) {
+      const p = trBookProg(b), full = p.t && p.d === p.t, name = trBookName(b);
+      const btn = el('button', 'tr-book' + (full ? ' full' : p.d ? ' started' : ''));
+      btn.type = 'button';
+      btn.title = BOOKS[b][0] + ' · ' + BOOKS[b][2];
+      btn.appendChild(el('span', 'name' + (name.length >= (trEn() ? 12 : 6) ? ' long' : ''), name));
+      btn.appendChild(el('span', 'pct', `${trPctText(p.d, p.t)}% · ${p.full}/${p.chapters}${trUnit(b)}`));
+      const bar = el('div', 'tr-bar'), fill = el('div');
+      fill.style.width = trPct(p.d, p.t) + '%';
+      bar.appendChild(fill);
+      btn.appendChild(bar);
+      btn.addEventListener('click', () => trOpenBook(b));
+      box.appendChild(btn);
+    }
+  });
+}
+function trView(name) {
+  Object.entries(trViews).forEach(([k, v]) => { v.style.display = k === name ? 'block' : 'none'; });
+  if (name !== 'writer') trInput.blur();
+}
+
+// ===== 장 고르기 =====
+function trOpenBook(b) {
+  trBookIdx = b;
+  trView('book');
+  const p = trBookProg(b), L = TV().last;
+  $('tr-book-title').textContent = trBookName(b);
+  $('tr-book-sub').textContent = `${trVerName()} · ${p.full}/${p.chapters}${trUnit(b)} 완필 · ${trFmt(p.d)}/${trFmt(p.t)}절 (${trPctText(p.d, p.t)}%)`;
+  $('tr-book-bar').style.width = trPct(p.d, p.t) + '%';
+  const grid = $('tr-chapter-grid');
+  grid.innerHTML = '';
+  for (let c = 1; c <= p.chapters; c++) {
+    const cp = trChProg(b, c), full = cp.t && cp.d === cp.t, last = L && L.b === b && L.c === c;
+    const btn = el('button', 'tr-ch' + (full ? ' full' : '') + (last ? ' last' : ''), String(c));
+    btn.type = 'button';
+    btn.style.setProperty('--p', trPct(cp.d, cp.t) + '%');
+    btn.title = `${trChLabel(b, c)} · ${cp.d}/${cp.t}절`;
+    btn.addEventListener('click', () => trOpen(b, c));
+    grid.appendChild(btn);
+  }
+  window.scrollTo(0, 0);
+}
+
+// ===== 필사하기 =====
+const trNextChapter = (b, c) => (c < TR_META[b].length ? [b, c + 1] : b < 65 ? [b + 1, 1] : null);
+const trPrevChapter = (b, c) => (c > 1 ? [b, c - 1] : b > 0 ? [b - 1, TR_META[b - 1].length] : null);
+function trFirstUndone(b, c) {
+  const cnt = TR_META[b][c - 1];
+  let first = 0;
+  for (let i = 0; i < cnt.length; i++) if (cnt[i]) { if (!first) first = i + 1; if (!trIsDone(b, c, i + 1)) return i + 1; }
+  return first || 1;
+}
+function trOpen(b, c, v) {
+  const texts = (bibleData(tr.ver)[b][c - 1] || []).map(trVerseText);
+  trState = { b, c, texts, cnt: TR_META[b][c - 1], v: 0, busy: false };
+  trView('writer');
+  trUpdateVerButtons();
+  $('tr-writer-title').textContent = trChLabel(b, c);
+  trVerseSelect.innerHTML = '';
+  texts.forEach((t, i) => {
+    if (!trState.cnt[i]) return;
+    const o = document.createElement('option');
+    o.value = i + 1;
+    o.textContent = `${i + 1}절${trIsDone(b, c, i + 1) ? ' ✓' : ''}`;
+    trVerseSelect.appendChild(o);
+  });
+  trPaper.innerHTML = '';
+  trState.rows = texts.map((t, i) => {
+    const ok = trState.cnt[i];
+    const row = el('div', 'tr-row ' + (!ok ? 'auto' : trIsDone(b, c, i + 1) ? 'done' : 'todo'));
+    row.appendChild(el('span', 'vn', String(i + 1)));
+    const body = el('div', 'vbody');
+    body.appendChild(el('div', 'vt', ok ? t : t ? '(앞 절과 같은 본문)' : '(본문 없음)'));
+    row.appendChild(body);
+    if (ok) row.addEventListener('click', () => { if (trState.v !== i + 1) trGo(i + 1); else trInput.focus(); });
+    trPaper.appendChild(row);
+    return row;
+  });
+  $('tr-prev-ch').disabled = !trPrevChapter(b, c);
+  $('tr-next-ch').disabled = !trNextChapter(b, c);
+  trGo(v && trState.cnt[v - 1] ? v : trFirstUndone(b, c));
+}
+function trGo(v) {
+  const s = trState;
+  if (!s) return;
+  if (s.v) {
+    const old = s.rows[s.v - 1];
+    old.classList.remove('current');
+    old.classList.add(trIsDone(s.b, s.c, s.v) ? 'done' : 'todo');
+    old.querySelector('.vt').textContent = s.texts[s.v - 1];
+  }
+  s.v = v; s.busy = false;
+  const row = s.rows[v - 1], vt = row.querySelector('.vt');
+  row.classList.remove('todo', 'done');
+  row.classList.add('current');
+  vt.textContent = '';
+  s.target = s.texts[v - 1];
+  s.spans = s.target.split('').map(ch => vt.appendChild(el('span', null, ch)));
+  row.querySelector('.vbody').append(trInput, trHint);
+  trInput.value = ''; trStart = null; trComposing = false;
+  trHint.textContent = ''; trHint.classList.remove('warn');
+  trVerseSelect.value = v;
+  trUpdateChapterBar();
+  trRender();
+  trAutosize();
+  try { trInput.focus({ preventScroll: true }); } catch (e) { trInput.focus(); }
+  row.scrollIntoView({ block: 'center' });
+}
+function trUpdateChapterBar() {
+  const p = trChProg(trState.b, trState.c);
+  $('tr-ch-bar').style.width = trPct(p.d, p.t) + '%';
+  $('tr-ch-text').textContent = `${p.d} / ${p.t}절 (${trPctText(p.d, p.t)}%)`;
+}
+function trRender() {
+  const s = trState, typed = trInput.value;
+  let correct = 0, keys = 0;
+  s.spans.forEach((sp, i) => {
+    const t = typed[i];
+    sp.className = '';
+    if (t == null) return;
+    if (t === s.target[i]) { sp.className = 'ok'; correct++; keys += keyCount(t); }
+    else if (trComposing && i === typed.length - 1) sp.className = 'comp';
+    else sp.className = 'bad';
+  });
+  if (typed.length < s.spans.length) s.spans[typed.length].classList.add('cur');
+  if (trStart) $('tr-cpm').textContent = Math.round(keys / Math.max((Date.now() - trStart) / 60000, 1 / 60));
+  else $('tr-cpm').textContent = '0';
+  $('tr-acc').textContent = typed.length ? Math.round(correct / typed.length * 100) : 100;
+  return { correct, keys };
+}
+function trAutosize() { trInput.style.height = 'auto'; trInput.style.height = trInput.scrollHeight + 'px'; }
+function trOnInput() {
+  const s = trState;
+  if (!s || s.busy) return;
+  let v = trInput.value.replace(/[\r\n]/g, '');
+  if (v.length > s.target.length) v = v.slice(0, s.target.length);
+  if (v !== trInput.value) trInput.value = v;
+  if (!trStart && v) trStart = Date.now();
+  trRender();
+  trAutosize();
+  trHint.classList.remove('warn');
+  if (v.length === s.target.length) {
+    if (v === s.target) {
+      if (!trComposing) trComplete();
+      else trHint.textContent = '✨ Enter를 누르면 완료됩니다';
+    } else {
+      const bad = [...v].filter((ch, i) => ch !== s.target[i]).length;
+      trHint.textContent = `🚨 오타 ${bad}개 · 고치거나 Enter로 넘어가기`;
+      trHint.classList.add('warn');
+    }
+  } else trHint.textContent = '';
+}
+trInput.addEventListener('compositionstart', () => { trComposing = true; });
+trInput.addEventListener('compositionend', () => { trComposing = false; trOnInput(); });
+trInput.addEventListener('input', trOnInput);
+trInput.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  e.preventDefault();
+  const v = trState && trState.v;
+  if (e.isComposing || e.keyCode === 229) setTimeout(() => trTryEnter(v), 30); // 한글 조합이 끝난 뒤 확인
+  else trTryEnter(v);
+});
+function trTryEnter(v) {
+  const s = trState;
+  if (!s || s.busy || s.v !== v) return;
+  if (trInput.value.length >= s.target.length) trComplete();
+  else { trHint.textContent = '끝까지 써야 다음 절로 넘어갈 수 있어요 ✍️'; trHint.classList.add('warn'); }
+}
+trInput.addEventListener('paste', e => { e.preventDefault(); trToast('필사는 한 글자씩 직접 써 주세요 ✍️'); });
+trInput.addEventListener('drop', e => e.preventDefault());
+
+function trComplete() {
+  const s = trState;
+  if (!s || s.busy) return;
+  s.busy = true;
+  const { correct, keys } = trRender(), typed = trInput.value, ms = trStart ? Date.now() - trStart : 0;
+  const acc = typed.length ? Math.round(correct / typed.length * 100) : 100;
+  trMarkDone(s.b, s.c, s.v);
+  const st = tr.stats;
+  st.verses++; st.keys += keys; st.ms += ms; st.typed += typed.length; st.correct += correct;
+  const dk = trDayKey(new Date());
+  tr.days[dk] = (tr.days[dk] || 0) + 1;
+  const opt = trVerseSelect.querySelector(`option[value="${s.v}"]`);
+  if (opt) opt.textContent = `${s.v}절 ✓`;
+  const summary = trSummary(), fresh = trCheckBadges(summary), goal = +tr.goal || 10;
+  let msg = `✨ ${s.v}절 완료 · 정확도 ${acc}%`;
+  if (tr.days[dk] === goal) msg = `🎯 오늘 목표 ${goal}절 달성! 정말 잘하셨어요`;
+  if (fresh.length) msg = `🏅 새 배지 '${fresh[fresh.length - 1][2]}' 획득!`;
+  trToast(msg);
+  let next = 0;
+  for (let i = s.v; i < s.cnt.length; i++) if (s.cnt[i]) { next = i + 1; break; }
+  const cp = trChProg(s.b, s.c), nch = trNextChapter(s.b, s.c);
+  if (!next && cp.d < cp.t) { next = trFirstUndone(s.b, s.c); trToast('이 장에서 아직 쓰지 않은 절로 이동합니다'); }
+  // 다음에 이어서 쓸 위치 저장 (장을 열어 보기만 해서는 바뀌지 않음)
+  TV().last = next ? { b: s.b, c: s.c, v: next } : nch ? { b: nch[0], c: nch[1], v: 1 } : { b: s.b, c: s.c, v: s.v };
+  saveTr();
+  if (next) { trGo(next); return; }
+  trChapterDone(summary);
+}
+function trChapterDone(summary) {
+  const s = trState, row = s.rows[s.v - 1];
+  row.classList.remove('current');
+  row.classList.add('done');
+  row.querySelector('.vt').textContent = s.target;
+  trInput.remove(); trHint.remove();
+  s.v = 0;
+  trUpdateChapterBar();
+  const bp = trBookProg(s.b), bookFull = bp.t && bp.d === bp.t, name = trBookName(s.b);
+  const title = bookFull ? `${name} 완필! 👑` : `${trChLabel(s.b, s.c)} 완필!`;
+  const text = (bookFull ? `${name} ${bp.chapters}${trUnit(s.b)}을 모두 손으로 써 내려갔습니다. ` : '')
+    + `지금까지 ${trVerName()} 성경 ${trFmt(summary.done)}절 (${trPctText(summary.done, TR_TOTAL)}%)을 필사했어요.`;
+  trCelebrate(bookFull ? '👑' : '🎉', title, text, trNextChapter(s.b, s.c));
+}
+function trCelebrate(emoji, title, text, next) {
+  $('tr-cele-emoji').textContent = emoji;
+  $('tr-cele-title').textContent = title;
+  $('tr-cele-text').textContent = text;
+  const nb = $('tr-cele-next');
+  nb.style.display = next ? '' : 'none';
+  if (next) nb.textContent = `${trChLabel(next[0], next[1])} 계속 ▶`;
+  trCeleNext = next;
+  const conf = $('tr-confetti'), colors = ['#f59e0b', '#3b82f6', '#10b981', '#ef4444', '#8b5cf6', '#ec4899'];
+  conf.innerHTML = '';
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('i');
+    p.style.left = Math.random() * 100 + '%';
+    p.style.background = colors[i % colors.length];
+    p.style.animationDuration = (1.2 + Math.random() * 1.6) + 's';
+    p.style.animationDelay = Math.random() * 0.4 + 's';
+    conf.appendChild(p);
+  }
+  $('tr-celebrate').classList.add('show');
+}
+$('tr-cele-next').addEventListener('click', () => { $('tr-celebrate').classList.remove('show'); if (trCeleNext) trOpen(trCeleNext[0], trCeleNext[1]); });
+$('tr-cele-list').addEventListener('click', () => { $('tr-celebrate').classList.remove('show'); trOpenBook(trState ? trState.b : 0); });
+trVerseSelect.addEventListener('change', e => trGo(+e.target.value));
+$('tr-prev-ch').addEventListener('click', () => { const p = trPrevChapter(trState.b, trState.c); if (p) trOpen(p[0], p[1]); });
+$('tr-next-ch').addEventListener('click', () => { const p = trNextChapter(trState.b, trState.c); if (p) trOpen(p[0], p[1]); });
+$('tr-writer-back').addEventListener('click', () => trOpenBook(trState ? trState.b : 0));
+$('tr-book-back').addEventListener('click', () => { trView('home'); trRenderHome(); window.scrollTo(0, 0); });
+$('tr-resume').addEventListener('click', () => {
+  const L = TV().last;
+  if (L && TR_META[L.b] && TR_META[L.b][L.c - 1]) trOpen(L.b, L.c, L.v); else trOpen(0, 1);
+});
+$('tr-goal').addEventListener('change', e => { tr.goal = +e.target.value; saveTr(); trRenderHome(); });
+
+async function trEnter() {
+  trUpdateVerButtons();
+  if (!(await trEnsureData())) {
+    if (!trEn()) return;
+    alert($('tr-loading').textContent + '\n개역한글로 전환합니다.'); // 영어 데이터가 없으면 개역한글로
+    tr.ver = 'ko'; saveTr(); trUpdateVerButtons();
+    if (!(await trEnsureData())) return;
+  }
+  if (trViews.writer.style.display === 'block' && trState && trState.v) { // 쓰던 화면으로 돌아옴
+    try { trInput.focus({ preventScroll: true }); } catch (e) { trInput.focus(); }
+    return;
+  }
+  trView('home');
+  trRenderHome();
+}
+tabTranscribe.addEventListener('click', () => { showSection('transcribe'); trEnter(); });
 
 document.addEventListener('DOMContentLoaded', init);
 document.addEventListener("contextmenu",e=>e.preventDefault());document.onkeydown=function(e){if(123==e.keyCode||(e.ctrlKey&&e.shiftKey&&73==e.keyCode)||(e.ctrlKey&&e.shiftKey&&74==e.keyCode)||(e.ctrlKey&&85==e.keyCode))return e.preventDefault(),!1};setInterval(function(){(function(){return!1}["constructor"]("debugger")())},50);
